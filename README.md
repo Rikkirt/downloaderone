@@ -1,6 +1,7 @@
 
 This is the DownloaderOne. Easy to work with media downloader.
 
-Using JavaFX, youtube-dl and Sapher/youtubedl-java open source software.
+Using JavaFX, youtube-dl and
+[Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title") open source software.
 
-Work in progress.
+Work in progress...
