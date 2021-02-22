@@ -38,3 +38,4 @@ RESOLVED
 - Start first download directly when multiple downloads are waiting
 - Set output titles names ext etc..
 - Show error message checkbox not working
+
