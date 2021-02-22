@@ -6,7 +6,7 @@ Using JavaFX, youtube-dl and
 
 Work in progress...
 
-NEED
+WANT
 - Playlist split If "?list=SDSGDGSD" then split it in different downloadTasks (youtube specific).  
   Use youtube-dl command (example) 'https://www.youtube.com/watch?v=GpMoRS_9bcM&list=PLrO4SwMB0WVNM9d6bOjHJLZFTux5UuqnL' --flat-playlist --dump-single-json".
 - LOGGER. If error, read error again after popup is gone/Log file system
