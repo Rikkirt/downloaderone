@@ -1,0 +1,2 @@
+youtube-dl --audio-format mp3 -k --prefer-ffmpeg --proxy socks5://127.0.0.1:9150/ https://www.youtube.com/watch?v=-CtgAgTqx0w
+youtube-dl --audio-format mp3 -k --prefer-ffmpeg --proxy socks5://127.0.0.1:9150/ https://youtu.be/rY0WxgSXdEE

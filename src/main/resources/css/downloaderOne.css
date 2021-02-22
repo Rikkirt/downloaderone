@@ -1,0 +1,136 @@
+.root {
+
+    -fx-background: lightblue;
+    -fx-background-color: white;
+    -fx-font-size: 10pt;
+    -fx-font-family: "Verdana";
+}
+
+.label {
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+
+}
+
+#version {
+    -fx-font-size: 25;
+
+}
+
+
+.tab-pane > .tab-header-area{
+    -fx-padding: 35 0 0 500;
+    -fx-border-width: 0px;
+    -fx-border-color: white;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-background-insets: 0 1 0 0, 1 2 0 1, 2 3 0 2;
+    -fx-padding: 5 15 5 15;
+    -fx-background-color: white;
+    -fx-border-width: 1px 3px 0px 1px;
+    -fx-border-color: lightgrey;
+    -fx-font-size: 14;
+}
+
+.tab-header-area .tab{
+    -fx-background-insets: 0 1 1 0, 1 2 1 1, 2 3 1 2;
+    -fx-font-size: 12;
+    -fx-padding:5 15 5 15;
+    -fx-border-width: 1px 3px 0px 1px;
+    -fx-border-radius: 5 5 0 0;
+    -fx-background-radius: 5 5 0 0;
+    -fx-background-color: white;
+}
+
+.tab-pane > .tab-header-area > .headers-region >.tab:selected .focus-indicator{
+    -fx-border-width: 0;
+    -fx-border-color: lightgrey;
+}
+
+.table-view {
+    -fx-background-insets: 0;
+}
+
+#downloadTable .table-cell{
+    -fx-alignment: CENTER;
+}
+
+#downloadTable .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+}
+
+
+.progress-bar > .bar {
+
+    -fx-background-insets:0;
+    -fx-background-color: #b4db7a ;
+    -fx-background-insets: 2 2 3 2;
+    -fx-padding: 0.60em;
+}
+
+#progressbar > .bar {
+    -fx-background-color: red;
+    -fx-background-insets: 1 1 2 1;
+    -fx-padding: 0.20em;
+}
+
+
+/*
+Pseudo class 'error' will change the row background
+color to red when activated
+*/
+.table-row-cell:Downloading {
+    -fx-background-color: lightgrey;
+    -fx-light-text-color: black ;
+    -fx-mid-text-color:   black ;
+    -fx-dark-text-color:  black ;
+    -fx-table-cell-border-color: #b4db7a;
+
+}
+
+/*
+Pseudo class 'finished' will change the row background
+ color to green when activated
+ */
+.table-row-cell:Finished{
+    -fx-background-color: #b4db7a;
+    -fx-light-text-color: black ;
+    -fx-mid-text-color:   black ;
+    -fx-dark-text-color:  white ;
+    -fx-border-width: 0px;
+    -fx-table-cell-border-color: green;
+}
+
+/*
+Pseudo class 'converting' will change the row background
+ color to yellow when activated
+ */
+.table-row-cell:Converting{
+    -fx-background-color: yellow;
+    -fx-light-text-color: black ;
+    -fx-mid-text-color:   black ;
+    -fx-dark-text-color:  white ;
+    -fx-border-width: 0px;
+    -fx-table-cell-border-color: green;
+}
+
+/*
+Pseudo class 'error' will change the row background
+color to red when activated
+*/
+.table-row-cell:Error {
+    -fx-background-color: red ; /*#A30029;*/
+    -fx-light-text-color: white ;
+    -fx-mid-text-color:   white ;
+    -fx-dark-text-color:  white ;
+    -fx-border-width: 0px;
+    -fx-table-cell-border-color: red;
+
+}
+
+.button {
+    -fx-text-fill: black;
+}
