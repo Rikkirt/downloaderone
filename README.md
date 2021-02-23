@@ -7,8 +7,7 @@ Using JavaFX, youtube-dl and
 Work in progress...
 
 WANT
-- Playlist split If "?list=SDSGDGSD" then split it in different downloadTasks (youtube specific).  
-  Use youtube-dl command (example) 'https://www.youtube.com/watch?v=GpMoRS_9bcM&list=PLrO4SwMB0WVNM9d6bOjHJLZFTux5UuqnL' --flat-playlist --dump-single-json".
+
 - LOGGER. If error, read error again after popup is gone/Log file system
 - Settings MetaTags in file with Apache Tika
 - Settings: Make possible to set different audio/video formats
@@ -20,6 +19,7 @@ LIKE
 - Translations
 
 RESOLVED
+- Playlist split If "?list=SDSGDGSD" then split it in different downloadTasks (youtube specific). Use youtube-dl command (example) 'https://www.youtube.com/watch?v=GpMoRS_9bcM&list=PLrO4SwMB0WVNM9d6bOjHJLZFTux5UuqnL' --flat-playlist --dump-single-json"
 - Make editable datalist initial websites/Combobox is editable
 - Duplicate id nr in table when restarting tasks check id before restart
 - Total size downloadButton in row (Read youtubeResponse?)
