@@ -623,19 +623,10 @@ public class DownloaderControler {
     }
 
     public void executeDownloads() throws YoutubeDLException {
-
-        //DEV work in progress
         executor = Executors.newFixedThreadPool(20);
-
         downloadTaskList.iterator().forEachRemaining(executor::execute);
-
         executor.shutdown();
-
     }
-
-
-
-
 
     private void showReferenceDialog() {
 
