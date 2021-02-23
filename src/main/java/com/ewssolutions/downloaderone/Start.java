@@ -54,7 +54,7 @@ public class Start extends Application {
 
 
     public static boolean prod = true;
-    public static String version = "2.3.1";
+    public static String version = "3.0.0";
 
     private Stage aboutDialog=null;
 
