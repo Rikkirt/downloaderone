@@ -13,10 +13,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>15</javafx.version>
+        <javafx.version>15.0.1</javafx.version>
 <!--        <client.maven.plugin.version>3.8.1</client.maven.plugin.version>-->
         <maven.compiler.release>11</maven.compiler.release>
-        <main.class>com.ewssolutions.downloaderone.Launcher</main.class>
+        <main.class>com.ewssolutions.downloaderone.Setup</main.class>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
@@ -37,10 +37,8 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.5</version>
                 <configuration>
+
                     <mainClass>${main.class}</mainClass>
-                    <release>${maven.compiler.release}</release>
-<!--                    <jlinkImageName>DownloaderOne</jlinkImageName>-->
-<!--                    <launcher>launcher</launcher>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -48,7 +46,7 @@
                 <artifactId>client-maven-plugin</artifactId>
                 <version>0.1.38</version>
                 <configuration>
-                    <graalvmHome>/home/ews/development/graalvm/graalvm-ce-java11-21.0.0.2</graalvmHome>
+                    <graalvmHome>~/development/graalvm/graalvm-ce-java11-21.0.0.2</graalvmHome>
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
@@ -70,12 +68,12 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
+            <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
+            <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-web -->
@@ -98,12 +96,6 @@
             <artifactId>commons-io</artifactId>
             <version>2.8.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
-<!--        <dependency>-->
-<!--            <groupId>org.controlsfx</groupId>-->
-<!--            <artifactId>controlsfx</artifactId>-->
-<!--            <version>11.0.3</version>-->
-<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -133,6 +125,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-guava</artifactId>
             <version>2.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
         </dependency>
 
     </dependencies>
