@@ -1,10 +1,13 @@
 package com.ewssolutions.downloaderone;
 
+import com.ewssolutions.downloaderone.util.ProcessReadTask;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sapher.youtubedl.*;
 import com.sapher.youtubedl.mapper.VideoInfo;
+import com.sapher.youtubedl.utils.StreamGobbler;
+import com.sapher.youtubedl.utils.StreamProcessExtractor;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -26,6 +29,9 @@ import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.io.*;
 import java.net.URL;
@@ -183,7 +189,7 @@ public class DownloaderControler {
 
         manager.setCookiePolicy((uri, cookie) -> false);
 
-        executor = Executors.newFixedThreadPool(10);
+        //executor = Executors.newFixedThreadPool(20);
 
 
     }
@@ -234,9 +240,6 @@ public class DownloaderControler {
      */
     public void downloadButtonAction(ActionEvent actionEvent) {
 
-
-
-
         if (downloadUrlTextField.getText().isEmpty()) {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.getDialogPane().getButtonTypes().add(new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE));
@@ -252,31 +255,24 @@ public class DownloaderControler {
 
             if(continueDownload) {
 
-
+                String url;
+                int nr = 1;
 
 
                 //Start procesbuilder script
                 //downloadUrlTextField
                 //youtube-dl --audio-format mp3 -k --prefer-ffmpeg --proxy socks5://127.0.0.1:9150/ https://www.youtube.com/watch?v=Pgqa3cVOxUc
 
+                List<String> DownloadUrls =  Arrays.asList(downloadUrlTextField.getText().split("\\n").clone());
 
-
-
-
-                String url;
-
-                int nr = 1;
-
-                String[] DownloadUrls =  downloadUrlTextField.getText().split("\\n");
-
-
+                //Filter youtube playlist urls
+                List<String> TreatedDownloadUrls = prepareYTPlaylistExtraction(DownloadUrls);
 
                 //Extract each
-                for (String urlString : DownloadUrls){
+                for (String urlString : TreatedDownloadUrls){
 
                     if(urlString.contains("https://www.") || urlString.contains("https://")){
                         url = urlString;
-
 //                    if (downloadUrlTextField.getText().contains("https://www.") || downloadUrlTextField.getText().contains("https://")) {
 //                        url = downloadUrlTextField.getText();
                     } else {
@@ -285,16 +281,9 @@ public class DownloaderControler {
 
                     String extraText = "";
 
-                    if(DownloadUrls.length>1){
+                    if(TreatedDownloadUrls.size()>1){
                         extraText = "item-"+nr+++"";
                     }
-
-                    //DEV work in progress Split Youtube playlist to unique DownloadItemTasks
-                    //Flow:
-                    //Download playlist info  -> youtube-dl -i 'https://www.youtube.com/watch?v=GpMoRS_9bcM&list=PLrO4SwMB0WVNM9d6bOjHJLZFTux5UuqnL' --flat-playlist --dump-single-json
-                    //Extract and search for url
-                    //Format urls "https://youtu.be/+"url //https://youtu.be/HWOWwO7XGgY
-                    //Prepare DownloadItemTasks
 
                     //Set commands
                     prepareDownloadItemTask(url,String.valueOf(downloadReferenceText),extraText);
@@ -314,11 +303,70 @@ public class DownloaderControler {
     }
 
     /*
+        If url contains "youtube" and "&list=" put all list items as separate DownloadTaskItems
+    */
+    private List<String> prepareYTPlaylistExtraction(List<String> urls) {
+
+        List<String> result = new ArrayList<String>();
+
+        for(String url: urls) {
+
+            if(url.contains("www.youtu") && url.contains("&list=")) {
+
+                //ORG
+                //List<String> playlist = youtubeDlPLaylistInfo(url);
+                //NEW
+                List<String> entries = new ArrayList<String>();
+                JSONObject jRes = null;
+
+                Process process = null;
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("youtube-dl",url,"--flat-playlist","--dump-single-json");
+
+                try {
+
+                    process = processBuilder.start();
+
+                    ProcessReadTask task = new ProcessReadTask(process.getInputStream());
+
+                    executor = Executors.newSingleThreadExecutor();
+                    Future<List<String>> future = executor.submit(task);
+
+                    List<String> output = future.get(5, TimeUnit.SECONDS);
+                    for (String s : output) {
+                        jRes = new JSONObject(s);
+                    }
+
+                } catch (InterruptedException | ExecutionException | TimeoutException | IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    executor.shutdown();
+                }
+
+                if(jRes!=null && jRes.has("entries")){
+                    jRes.getJSONArray("entries").forEach(s -> {
+                        JSONObject jEntry = new JSONObject(s);
+                        String mUrl  = jEntry.getString("url");
+                        result.add("https://youtu.be/".concat(mUrl));
+                    });
+                }
+
+            }else{
+                //Add normal
+                result.add(url);
+            }
+        }
+
+        return result;
+    }
+
+
+    /*
            Save inputs to prefs
     */
     public void settingsSaveButtonAction(ActionEvent actionEvent) {
 
-        Boolean continueSave = true;
+        boolean continueSave = true;
         HashMap <Label,String> errorMap = new HashMap<Label,String>();
 
 
@@ -576,27 +624,16 @@ public class DownloaderControler {
         downloadItemTaskTask.setReferenceItem(reference+extraReference);
         downloadItemTaskTask.setIdItem(downloadTableItemTasks.size());
 
-
     }
 
     public void executeDownloads() throws YoutubeDLException {
 
+        //DEV work in progress
+        executor = Executors.newFixedThreadPool(20);
 
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
+        downloadTaskList.iterator().forEachRemaining(executor::execute);
 
-                        for (DownloadItemTask downloadItemTask: downloadTaskList){
-                                executor.execute(downloadItemTask);
-                        }
-
-                        downloadTaskList.clear();
-
-                    }
-                },
-                2000
-        );
+        executor.shutdown();
 
     }
 
@@ -758,7 +795,7 @@ public class DownloaderControler {
 
     /*
         check if update is needed
-        youtube-dl is up-to-date (2021.02.10)
+        "youtube-dl is up-to-date (2021.02.10)"
     */
     public boolean checkYoutubeDlNeedsUpdate(){
 
