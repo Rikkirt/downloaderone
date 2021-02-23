@@ -50,10 +50,7 @@ import java.util.prefs.Preferences;
 import static com.ewssolutions.downloaderone.DownloadItemTask.CONVERTING;
 import static java.awt.SplashScreen.getSplashScreen;
 
-public class Setup extends Application {
-
-
-
+public class Start extends Application {
 
 
     public static boolean prod = true;
@@ -127,10 +124,6 @@ public class Setup extends Application {
             splash.update();
         }
 
-        //URL url = getClass().getResource("fxml/downloader.fxml");
-        ///main/java/com/ewssolutions/downloaderone/ui/downloader.fxml"
-        //FXMLLoader loader = new FXMLLoader(url);
-        //ORG
         FXMLLoader loader = new FXMLLoader(this.getClass().getClassLoader().getResource("fxml/downloader.fxml"));
 
         AnchorPane myAnchorPane = loader.load();
@@ -162,10 +155,6 @@ public class Setup extends Application {
             prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue());
 
         }
-
-
-
-
 
         //load default values in settings screen
         myDownloadControler.settingsInputDownloadLocation.setText(prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue()));
@@ -295,9 +284,6 @@ public class Setup extends Application {
         }
 
 
-
-
-
         myDownloadControler.downloadUrlTextField.textProperty().addListener((obs, oldText, newText) -> {
 
             if(newText.length()>0){
@@ -313,15 +299,14 @@ public class Setup extends Application {
 
             setdownloadUrlTextFieldSize(newText);
 
-
         });
 
-        primaryStage.getIcons().add(new Image("images/downloaderOne.png"));
+        primaryStage.getIcons().add(new Image("images/downloader_one.png"));
         primaryStage.setTitle("DownloaderOne");
         primaryStage.setScene(new Scene(myAnchorPane));
 
         //Stylesheet
-        primaryStage.getScene().getStylesheets().add("css/downloaderOne.css");
+        primaryStage.getScene().getStylesheets().add("css/downloader_one.css");
 
         MenuBar menuBar = new MenuBar();
         menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
@@ -673,7 +658,7 @@ public class Setup extends Application {
 
 
 
-        //SHOW Main Window
+        //Show Main Window
         primaryStage.show();
         //Close Splash
         if(splash!=null){
@@ -687,8 +672,6 @@ public class Setup extends Application {
     public void stop() {
 
         //Check active downloads:
-        Boolean downloading=false;
-
         myDownloadControler.downloadTable.getItems().forEach(downloadItemTask -> {
 
             if(downloadItemTask.getStateItem().get().contentEquals(DownloadItemTask.DOWNLOADING)){

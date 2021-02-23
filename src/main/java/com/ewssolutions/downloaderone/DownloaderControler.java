@@ -27,7 +27,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URL;
@@ -37,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.prefs.Preferences;
 
-import static com.ewssolutions.downloaderone.Setup.prod;
+import static com.ewssolutions.downloaderone.Start.prod;
 
 
 public class DownloaderControler {
@@ -312,8 +311,8 @@ public class DownloaderControler {
                 //ORG
                 //List<String> playlist = youtubeDlPLaylistInfo(url);
                 //NEW
-                List<String> entries = new ArrayList<String>();
-                JSONObject jRes = null;
+                JsonNode jsonNode = null;
+                ObjectMapper mapper = new ObjectMapper();
 
                 Process process = null;
                 ProcessBuilder processBuilder = new ProcessBuilder();
@@ -330,7 +329,7 @@ public class DownloaderControler {
 
                     List<String> output = future.get(5, TimeUnit.SECONDS);
                     for (String s : output) {
-                        jRes = new JSONObject(s);
+                        jsonNode = mapper.readTree(s);
                     }
 
                 } catch (InterruptedException | ExecutionException | TimeoutException | IOException e) {
@@ -339,11 +338,9 @@ public class DownloaderControler {
                     executor.shutdown();
                 }
 
-                if(jRes!=null && jRes.has("entries")){
-                    jRes.getJSONArray("entries").forEach(s -> {
-                        JSONObject jEntry = new JSONObject(s);
-                        String mUrl  = jEntry.getString("url");
-                        result.add("https://youtu.be/".concat(mUrl));
+                if(jsonNode!=null && jsonNode.has("entries")){
+                    jsonNode.get("entries").forEach(entryNode -> {
+                        result.add("https://youtu.be/".concat(entryNode.get("url").asText()));
                     });
                 }
 

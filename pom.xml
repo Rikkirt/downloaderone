@@ -16,7 +16,7 @@
         <javafx.version>15.0.1</javafx.version>
 <!--        <client.maven.plugin.version>3.8.1</client.maven.plugin.version>-->
         <maven.compiler.release>11</maven.compiler.release>
-        <main.class>com.ewssolutions.downloaderone.Setup</main.class>
+        <main.class>com.ewssolutions.downloaderone.Start</main.class>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
@@ -126,12 +126,6 @@
             <artifactId>jackson-datatype-guava</artifactId>
             <version>2.5.3</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20180813</version>
-        </dependency>
-
     </dependencies>
 
     <profiles>
