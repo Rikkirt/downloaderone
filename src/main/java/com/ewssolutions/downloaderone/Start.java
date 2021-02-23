@@ -464,7 +464,7 @@ public class Start extends Application {
         new AutoCompleteComboBoxListener<>(myDownloadControler.site);
 
         //ImageTorActive
-        myDownloadControler.imageTorActive.setImage(new Image("images/torActive.png"));
+        myDownloadControler.imageTorActive.setImage(new Image("images/tor_active.png"));
         myDownloadControler.setTorStartedImageOpacity();
         myDownloadControler.getPropertyTorStarted().addListener(new ChangeListener<Boolean>() {
             @Override
