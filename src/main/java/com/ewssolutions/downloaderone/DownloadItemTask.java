@@ -8,10 +8,10 @@ import javafx.beans.property.*;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.text.WordUtils;
-//import org.controlsfx.control.Notifications;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -290,9 +290,13 @@ public class DownloadItemTask extends Task<Void>{
             owner.getScene().setCursor(Cursor.DEFAULT);
 
             try {
-                //Notifications.create().hideAfter(Duration.seconds(2)).text("Finished:\n\"".concat(getReferenceItem().concat("\""))).position(Pos.CENTER).showInformation();
+                String msg = "Finished:\n\"".concat(getReferenceItem().concat("\""));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(msg);
+                alert.show();
+
             }catch (NullPointerException e){
-                //do nothing
+                //do nothing?
             }
 
         });
@@ -307,16 +311,22 @@ public class DownloadItemTask extends Task<Void>{
 
             try {
 
+                String msg="";
+
                 if(checkShowDownloadErrorMessage){
-                    String msg = WordUtils.wrap(event.getSource().getException().getLocalizedMessage(), 100);
-                    //Notifications.create().hideAfter(Duration.seconds(10)).text("Error downloading ".concat(getReferenceItem()).concat("\n\n"+msg)).position(Pos.CENTER).showError();
+                    msg = WordUtils.wrap(event.getSource().getException().getLocalizedMessage(), 100);
                 }else{
-                    //Notifications.create().hideAfter(Duration.seconds(2)).text("Error downloading ".concat(getReferenceItem())).position(Pos.CENTER).showError();
+                    msg = "Error downloading ".concat(getReferenceItem());
                 }
 
-            }catch (NullPointerException e){
-                //do nothing
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(msg);
+                alert.show();
 
+
+            }catch (NullPointerException e){
+                //do nothing?
+                //logger?
 
             }
         });

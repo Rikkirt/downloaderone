@@ -64,33 +64,6 @@ public class Start extends Application {
     //private String testUrl = "https://www.youtube.com/watch?v=afF3XHW7mZ4&list=PLIgtqVSOWgBYF-K0KYfq8nFsyDDq0LrI7\nhttps://youtu.be/HWOWwO7XGgY"; //Dolly
     private String testUrl = "https://youtu.be/HWOWwO7XGgY\nhttps://www.youtube.com/watch?v=kUg7OO1gZk0&list=PLlQHeJpCWHxTr1Bs1tX840Tp2gKIU9l25"; //Undertones
 
-//    https://youtu.be/HWOWwO7XGgY
-//    https://youtu.be/gmPEB4DAaQo
-//    https://youtu.be/CtKFqTtgqtE
-//    https://youtu.be/B3nZ_UqmlvI
-//    https://youtu.be/ihbkCC0Vow4
-//    https://youtu.be/NcBqtGDd0I8
-//    https://youtu.be/rBPD7ktuS5s
-//    https://youtu.be/XS2EkLregEg
-//    https://youtu.be/vl6aFkiJjrs
-//    https://youtu.be/3XrbWS5-5cU
-//    https://youtu.be/9HxK4O1bxkA
-//    https://youtu.be/gxuB-aKFEzo
-//    https://youtu.be/BbJA32D3AAE
-//    https://youtu.be/cNRRb2Rcr34
-//    https://youtu.be/xUHIhsg2fKU
-//    https://youtu.be/nWVDVbeq7Fk
-//    https://youtu.be/AdZdooYd-Qs
-//    https://youtu.be/heCvo1FyESk
-//    https://youtu.be/TRh964Gvsfw
-//    https://youtu.be/Q18GZsq0s-o
-//    https://youtu.be/lTiBhGCbwps
-//    https://youtu.be/V1QBlKFYKV0
-//    https://youtu.be/HZASzjoeJL8
-//    https://youtu.be/d5bRGjEORnE
-//    https://youtu.be/z-xMA79Xr7E
-
-    private String websiteAdress = " ";
     private DownloaderControler myDownloadControler;
     private Boolean isDownloading=false;
 
@@ -444,10 +417,11 @@ public class Start extends Application {
 
             } else {
                 logger.log(Level.INFO, "Not supported Desktop open");
-                //DEV work in progress
-                //Notifications.create().title("Info").text("Not supported Desktop open").position(Pos.TOP_CENTER).showInformation();
 
-
+                String msg = "\"Not supported Desktop open\"";
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(msg);
+                alert.show();
             }
 
         });
@@ -472,10 +446,6 @@ public class Start extends Application {
                 myDownloadControler.setTorStartedImageOpacity();
             }
         });
-
-        //Download Table
-//        myDownloadControler.idColumn.setCellValueFactory(new PropertyValueFactory<>("idItem"));
-//        myDownloadControler.idColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.05)); // w * 1/16
 
         myDownloadControler.startColumn.setCellValueFactory(new PropertyValueFactory<>("startItem"));
         myDownloadControler.startColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.08)); // w * 1/16
@@ -556,12 +526,7 @@ public class Start extends Application {
         // create a cell value factory with an add button for each row in the table.
         myDownloadControler.actionColumn.setCellFactory(downloadItemTaskTableColumn -> new ActionButtonCell(primaryStage, myDownloadControler));
 
-
-
-
-
         myDownloadControler.initDownloadTableData();
-
 
         if(!prod)
         myDownloadControler.downloadUrlTextField.setText(testUrl);
@@ -644,19 +609,13 @@ public class Start extends Application {
             return row;
         });
 
-
-
         myDownloadControler.tabDownload.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
                 EventType et = event.getEventType();
-
-
             }
 
         });
-
-
 
         //Show Main Window
         primaryStage.show();
@@ -664,7 +623,6 @@ public class Start extends Application {
         if(splash!=null){
             splash.close();
         }
-
 
     }
 
@@ -680,7 +638,11 @@ public class Start extends Application {
         });
 
         if(isDownloading()){
-            //Notifications.create().title("Info").hideAfter(Duration.seconds(3)).text("Still downloading, please wait.").position(Pos.CENTER).showInformation();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Still downloading, please wait.");
+            alert.show();
+
             //reset to false for a next try
             isDownloading(false);
         }else{

@@ -606,8 +606,6 @@ public class DownloaderControler {
         DownloadItemTask downloadItemTaskTask = new DownloadItemTask(request,owner);
         downloadItemTaskTask.setCheckShowDownloadErrorMessage(Boolean.valueOf(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
 
-        //Notifications.create().owner(owner).hideAfter(Duration.seconds(5)).text("Videoinfo ok").position(Pos.CENTER).showInformation();
-
         //Updates the table view
         downloadTableItemTasks.add(downloadItemTaskTask);
         //List executable Tasks
@@ -734,7 +732,7 @@ public class DownloaderControler {
         //init website url combobox
         try {
 
-            InputStream in = this.getClass().getClassLoader().getResourceAsStream("data/website.txt");
+            InputStream in = this.getClass().getClassLoader().getResourceAsStream("data/websites");
 
             reader = new BufferedReader(new InputStreamReader(in));
 
@@ -856,157 +854,6 @@ public class DownloaderControler {
         return latestVersion;
     }
 
-
-
-//    /*
-//        Not Working correctly because of sudo needed
-//    */
-//    @Deprecated
-//    @FXML
-//    public String installYoutubeDlLatestVersion() throws YoutubeDLException {
-//
-//        installYoutubeDlLatestVersionButton.setDisable(true);
-//        owner.getScene().setCursor(Cursor.WAIT);
-//
-//
-//        ArrayList<String> command = new ArrayList<>();
-//        ProcessBuilder pbYou = new ProcessBuilder();
-//
-//        pbYou.command(command);
-//
-//        //Request password for sudo
-//        PasswordDialog pd = new PasswordDialog();
-//        Optional<String> result = pd.showAndWait();
-//
-//        result.ifPresent(password -> {
-//
-//            InputStreamReader input;
-//            OutputStreamWriter output;
-//
-//            try {
-//
-//                //command.add("/home/ews/tor-browser_nl/Browser/start-tor-browser");
-//                //command.add("-c");
-////                command.add("sudo");
-////                command.add("-A");
-////                command.add(password.concat("\n"));
-////                command.add("echo");
-////                command.add(password);
-////                command.add("|");
-//                command.add("sudo");
-//                command.add("-S");
-//                command.add("youtube-dl");
-//                command.add("--update");
-//
-//
-//                //command.add(password);
-//                //command.add("\n\r");
-//
-////                command.add("sudo");
-////                command.add("-S");
-//
-//
-//                //echo password | sudo -S
-//
-//
-//                Process processYou = pbYou.start();
-//
-//                output = new OutputStreamWriter(processYou.getOutputStream());
-//                input = new InputStreamReader(processYou.getInputStream());
-//
-//                output.write(password.concat("\n"));
-//                output.write('\n');
-//                output.flush();
-//
-//
-//                int bytes, tryies = 0;
-//                char buffer[] = new char[1024];
-//                while ((bytes = input.read(buffer, 0, 1024)) != -1) {
-//                    if(bytes == 0)
-//                        continue;
-//                    //Output the data to console, for debug purposes
-//                    String data = String.valueOf(buffer, 0, bytes);
-//
-//                    System.out.println(data);
-//                    // Check for password request
-//                    //if (data.contains("[sudo] password")) {
-//                    if (data.contains("Updating to version")) {
-//                        // Here you can request the password to user using JOPtionPane or System.console().readPassword();
-//                        // I'm just hard coding the password, but in real it's not good.
-//                        //char password[] = new char[]{'t','e','s','t'};
-//                        System.out.println("password requested");
-////
-////                        output.write(password);
-////                        output.write('\n');
-////                        output.flush();
-//                        // erase password data, to avoid security issues.
-//
-//                        //Arrays.fill(password.getBytes(), '\0');
-//
-//                        tryies++;
-//                    }
-//                }
-//
-//
-//
-//
-//
-//
-//
-//                //process.getInput().write(/*password as bytes plus \n */)…
-//                //processYou.getOutputStream().write(password.concat("\n").getBytes());
-//
-//                //youtubeDlVersion = new BufferedReader(new InputStreamReader(processYou.getInputStream())).lines().collect(Collectors.joining("\n"));
-//                //System.out.println("ytdlVersion: " + youtubeDlVersion);
-//
-//                int err = 0;
-//
-//                InputStream error = processYou.getErrorStream();
-//                for (int i = 0; i < error.available(); i++) {
-//                    System.out.println("" + error.read());
-//                    err = error.read();
-//                }
-//
-//                if(error.read()>0){
-//                    System.out.println("Error installing version youtube-dl");
-//                    Notifications.create().owner(owner).hideAfter(Duration.seconds(3)).text("Error installing version youtube-dl: "+err).position(Pos.CENTER).showInformation();
-//
-//                }else{
-//                    Notifications.create().owner(owner).hideAfter(Duration.seconds(3)).text("Latest version Youtube-dl installed ("+latestVersion+")").position(Pos.CENTER).showInformation();
-//
-//                    prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),latestVersion);
-//                    settingsYoutubeDlVersion.setText(latestVersion);
-//                    installYoutubeDlLatestVersionButton.setVisible(false);
-//
-//                }
-//
-//            } catch (IOException e) {
-//
-//                try {
-//                    throw new YoutubeDLException(e);
-//                } catch (YoutubeDLException ex) {
-//                    ex.printStackTrace();
-//                }
-//
-//
-//            }finally {
-//                owner.getScene().setCursor(Cursor.DEFAULT);
-//                installYoutubeDlLatestVersionButton.setDisable(false);
-//            }
-//
-//        });
-//
-//
-//        owner.getScene().setCursor(Cursor.DEFAULT);
-//        installYoutubeDlLatestVersionButton.setDisable(false);
-//
-//
-//
-//        return youtubeDlVersion;
-//
-//
-//    }
-
     public void startTor() throws YoutubeDLException {
 
 
@@ -1019,24 +866,6 @@ public class DownloaderControler {
 
         //reset for next run
         continueCompare = true;
-
-//        ProcessHandle.allProcesses().forEach(processHandler ->{
-//
-//
-//
-//                    if(!torStartedProperty){
-//                        compareProcess(processHandler);
-//
-//
-//                    }else {
-//                        return;
-//                    }
-//
-//                    //System.out.println(processDetails(processHandler));
-//
-//                }
-//
-//        );
 
         if(!torStartedProperty.getValue()){
 
