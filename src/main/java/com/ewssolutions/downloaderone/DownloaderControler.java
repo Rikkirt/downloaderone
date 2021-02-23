@@ -1,13 +1,11 @@
 package com.ewssolutions.downloaderone;
 
+import com.ewssolutions.downloaderone.util.PrefKeys;
 import com.ewssolutions.downloaderone.util.ProcessReadTask;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sapher.youtubedl.*;
 import com.sapher.youtubedl.mapper.VideoInfo;
-import com.sapher.youtubedl.utils.StreamGobbler;
-import com.sapher.youtubedl.utils.StreamProcessExtractor;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -29,9 +27,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.*;
 import java.net.URL;

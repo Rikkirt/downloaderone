@@ -3,6 +3,7 @@ package com.ewssolutions.downloaderone;
 import com.ewssolutions.downloaderone.ui.ActionButtonCell;
 import com.ewssolutions.downloaderone.ui.AutoCompleteComboBoxListener;
 
+import com.ewssolutions.downloaderone.util.PrefKeys;
 import com.sapher.youtubedl.YoutubeDL;
 import javafx.application.Application;
 import javafx.application.Platform;

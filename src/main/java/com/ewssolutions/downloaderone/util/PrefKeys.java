@@ -1,4 +1,4 @@
-package com.ewssolutions.downloaderone;
+package com.ewssolutions.downloaderone.util;
 
 public enum PrefKeys {
 
