@@ -635,12 +635,10 @@ public class DownloaderControler {
         ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
 
-
         GridPane gridPane = new GridPane();
 //        gridPane.setHgap(10);
 //        gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
-
         //gridPane.setPadding(new Insets(20, 20, 10, 10));
 
         TextField referenceTextField = new TextField();
@@ -650,11 +648,8 @@ public class DownloaderControler {
 
         dialog.getDialogPane().setContent(gridPane);
 
-
-        // Request focus on the username field by default.
+        // Request focus on the reference field by default.
         Platform.runLater(referenceTextField::requestFocus);
-
-
 
         // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
@@ -664,19 +659,8 @@ public class DownloaderControler {
             if (dialogButton == okButtonType) {
                 continueDownload=true;
                 result = referenceTextField.getText();
-
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        owner.getScene().setCursor(Cursor.WAIT);
-//                    }
-//                });
-
-
-
             } else if(dialogButton ==  ButtonType.CANCEL){
                 continueDownload=false;
-
                 owner.getScene().setCursor(Cursor.DEFAULT);
             }
 
@@ -684,37 +668,11 @@ public class DownloaderControler {
         });
 
         owner.getScene().setCursor(Cursor.WAIT);
-
-
         Optional<String> result = dialog.showAndWait();
 
-
         result.ifPresent(ref -> {
-
             downloadReferenceText=ref;
-
-
-//            Platform.runLater(new Runnable() {
-//                @Override
-//                public void run() {
-//                    owner.getScene().setCursor(Cursor.WAIT);
-//                }
-//            });
-//
-//            Task task = new Task<Void>() {
-//                @Override
-//                protected Void call() throws Exception {
-//                    owner.getScene().setCursor(Cursor.WAIT);
-//                    return null;
-//
-//                }
-//            };
-//
-//            new Thread(task).start();
         });
-
-
-
     }
 
 
@@ -725,24 +683,17 @@ public class DownloaderControler {
 
         List<String> lines = new ArrayList<>();
         BufferedReader reader = null;
-
         //init Download Tabel
         downloadTable.setItems(downloadTableItemTasks);
-
         //init website url combobox
         try {
-
             InputStream in = this.getClass().getClassLoader().getResourceAsStream("data/websites");
-
             reader = new BufferedReader(new InputStreamReader(in));
 
             String line;
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-
-
-
         } catch (IOException e) {
 
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -760,6 +711,7 @@ public class DownloaderControler {
 
             dialog.setResizable(true);
             dialog.showAndWait();
+
         } finally {
 
             if(lines != null && lines.size()>0) {
@@ -776,7 +728,7 @@ public class DownloaderControler {
 
 
     /*
-        check if update is needed
+        Check if update is needed for youtube-dl
         "youtube-dl is up-to-date (2021.02.10)"
     */
     public boolean checkYoutubeDlNeedsUpdate(){
@@ -808,57 +760,9 @@ public class DownloaderControler {
 
     }
 
-    /*
-        Update Youtube-dl before start
-
-        youtube-dl --version
-        sudo youtube-dl --update
-    */
-     //curl --silent "https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" |  grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
-    //"tag_name":"2019.08.13",
-    @Deprecated
-    public String checkLatestYoutubeDlVersionOnline(){
-
-        String result = "";
-        latestVersion= prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue());
-
-        try {
-
-            URLConnection uc = new URL("https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest").openConnection();
-
-            InputStreamReader inputStreamReader = new InputStreamReader(uc.getInputStream());
-
-            Scanner s = new Scanner(inputStreamReader).useDelimiter("\\A");
-            result = s.hasNext() ? s.next() : "";
-
-
-
-            //ORG
-            //int intIndex = result.indexOf("\"tag_name\":");
-//            if(intIndex != - 1) {
-//                latestVersion = result.substring(intIndex+12,intIndex+22);
-//            }
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode Result = mapper.readTree(result);
-
-            latestVersion = Result.get("tag_name").asText();
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-
-        return latestVersion;
-    }
-
     public void startTor() throws YoutubeDLException {
 
-
         Iterator<ProcessHandle> iter = ProcessHandle.allProcesses().iterator();
-
 
         while(continueCompare && iter.hasNext()){
              compareProcess(iter.next());
@@ -900,23 +804,16 @@ public class DownloaderControler {
                     torStartedProperty.setValue(true);
                 }
 
-
-
-
-
             } catch (IOException e) {
-
                 throw new YoutubeDLException(e);
-
             }
 
             //processTor.waitFor(7000, TimeUnit.MILLISECONDS);
             try {
-                Thread.currentThread().sleep(5000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 //do nothing
             }
-
         }
 
         // SOCKS Proxy
@@ -969,39 +866,24 @@ public class DownloaderControler {
 
     private void compareProcess(ProcessHandle processHandle) {
 
-        ///String command = processHandle.info().command().toString();
-        //System.out.println(processDetails(processHandle));
-
-
         if(processHandle.info().commandLine().toString().contains("tor") && processHandle.info().commandLine().toString().contains("/firefox.real")) {
-        //if(processHandle.info().commandLine().toString().contains("torbrowser") && processHandle.info().commandLine().toString().contains("/firefox.real")) {
-        //if(processHandle.info().commandLine().toString().contains("tor-browser") && !processHandle.info().commandLine().toString().endsWith("tab")) {
-        //if(processHandle.info().commandLine().toString().contains(prefs.get(PrefKeys.TOR_LOCATION.getKey(),PrefKeys.TOR_LOCATION.getDefaultValue()))) {
             torStartedProperty.setValue(true);
             torPid = processHandle.pid();
             continueCompare = false;
-
-            //System.out.println("Tor running, pid: "+processHandle.pid());
-
         }else{
             torStartedProperty.setValue(false);
             torPid = 0;
             continueCompare = true;
-
-            //System.out.println("Tor not running");
         }
-
     }
 
-    //Test methods displaying all processes
+    /*
+        Test methods displaying all processes
+     */
     private static String processDetails(ProcessHandle process) {
-        //return String.format("%8d %8s %10s %26s %-20s %-20s",
-        return String.format("%8d %-20s",
+        return String.format("%8d %-20s %-20s",
                 process.pid(),
-                //text(process.parent().map(ProcessHandle::pid)),
-                //text(process.info().user()),
-                //text(process.info().startInstant()),
-                text(Optional.ofNullable(process.info().command().orElse("no command found"))),
+                text(Optional.of(process.info().command().orElse("no command found"))),
                 text(process.info().commandLine()));
     }
 

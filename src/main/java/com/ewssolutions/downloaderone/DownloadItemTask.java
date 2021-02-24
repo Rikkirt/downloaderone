@@ -1,23 +1,38 @@
 package com.ewssolutions.downloaderone;
 
+import com.ewssolutions.downloaderone.ui.Notification;
+import com.ewssolutions.downloaderone.ui.NotificationType;
 import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import com.sapher.youtubedl.mapper.VideoInfo;
+import com.sun.javafx.logging.PlatformLogger;
+import com.sun.javafx.tk.ScreenConfigurationAccessor;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.apache.commons.text.WordUtils;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.awt.image.*;
+import java.util.logging.Logger;
 
 public class DownloadItemTask extends Task<Void>{
 
@@ -262,26 +277,18 @@ public class DownloadItemTask extends Task<Void>{
         this.progressItem.bind(progressProperty());
         this.progressBarItem.bind(progressProperty());
 
-        //ORG
         this.stateItem.unbind();
         this.stateItem.bind(messageProperty());
 
         setOnScheduled(event -> {
-
             updateMessage(SEARCHING);
             updateProgress(1, 100);
-
-
         });
 
         setOnRunning(event -> {
-
-            //String name = event.getEventType().getName();
-
             updateMessage(DOWNLOADING);
             owner.getScene().setCursor(Cursor.DEFAULT);
             updateProgress(0, 100);
-
         });
 
         setOnSucceeded(event -> {
@@ -289,19 +296,9 @@ public class DownloadItemTask extends Task<Void>{
             updateMessage(FINISHED);
             owner.getScene().setCursor(Cursor.DEFAULT);
 
-            try {
-                String msg = "Finished:\n\"".concat(getReferenceItem().concat("\""));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(msg);
-                alert.show();
-
-            }catch (NullPointerException e){
-                //do nothing?
-            }
-
+            String msg = "Finished with downloading and conversion of '".concat(getReferenceItem()).concat("'");
+            new Notification(NotificationType.Info).setText(msg).show(5);
         });
-
-
 
         setOnFailed(event -> {
             updateMessage(ERROR);
@@ -309,31 +306,27 @@ public class DownloadItemTask extends Task<Void>{
 
             owner.getScene().setCursor(Cursor.DEFAULT);
 
-            try {
+            String msg="";
 
-                String msg="";
-
-                if(checkShowDownloadErrorMessage){
-                    msg = WordUtils.wrap(event.getSource().getException().getLocalizedMessage(), 100);
-                }else{
-                    msg = "Error downloading ".concat(getReferenceItem());
-                }
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(msg);
-                alert.show();
-
-
-            }catch (NullPointerException e){
-                //do nothing?
-                //logger?
-
+            if(checkShowDownloadErrorMessage){
+                msg = WordUtils.wrap(event.getSource().getException().getLocalizedMessage(), 100);
+            }else{
+                msg = "Error downloading ".concat(getReferenceItem());
             }
+
+            new Notification(NotificationType.Error).setText(msg).show(5);
+
+
         });
 
         setOnCancelled(event -> {
+
             updateMessage(CANCELED);
             updateProgress(0, 100);
+
+            String msg = "Request cancelled for '".concat(getReferenceItem()).concat("'");
+            new Notification(NotificationType.Warning).setText(msg).show(7);
+
         });
 
     }
@@ -357,4 +350,5 @@ public class DownloadItemTask extends Task<Void>{
 
         return null;
     }
+
 }

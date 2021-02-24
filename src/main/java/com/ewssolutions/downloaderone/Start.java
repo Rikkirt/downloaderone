@@ -67,6 +67,7 @@ public class Start extends Application {
     private DownloaderControler myDownloadControler;
     private Boolean isDownloading=false;
 
+
     private Preferences prefs;
 
     public static void main(String[] args) {
@@ -96,6 +97,8 @@ public class Start extends Application {
             splash.createGraphics().scale(0.5,0.5);
             splash.update();
         }
+
+
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getClassLoader().getResource("fxml/downloader.fxml"));
 
