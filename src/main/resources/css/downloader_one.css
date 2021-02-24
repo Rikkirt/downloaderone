@@ -109,7 +109,7 @@ Pseudo class 'converting' will change the row background
  color to yellow when activated
  */
 .table-row-cell:Converting{
-    -fx-background-color: yellow;
+    -fx-background-color: lightblue;
     -fx-light-text-color: black ;
     -fx-mid-text-color:   black ;
     -fx-dark-text-color:  white ;
