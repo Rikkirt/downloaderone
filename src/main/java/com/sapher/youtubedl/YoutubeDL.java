@@ -121,7 +121,7 @@ public class YoutubeDL {
     public static String getVersion() throws YoutubeDLException {
         YoutubeDLRequest request = new YoutubeDLRequest();
         request.setOption("version");
-        return YoutubeDL.execute(request).getOut();
+        return YoutubeDL.execute(request).getOut().trim();
     }
 
     /**

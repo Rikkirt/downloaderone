@@ -146,7 +146,6 @@ public class DownloaderControler {
 
     private Process processTor;
 
-
     private java.net.CookieManager manager;
 
     private Boolean continueDownload = false;
@@ -162,8 +161,6 @@ public class DownloaderControler {
     public Stage owner;
 
     public Preferences prefs;
-
-    //private Boolean torStartedProperty=false;
 
     private BooleanProperty torStartedProperty = new SimpleBooleanProperty();
 
@@ -183,9 +180,6 @@ public class DownloaderControler {
         java.net.CookieHandler.setDefault(manager);
 
         manager.setCookiePolicy((uri, cookie) -> false);
-
-        //executor = Executors.newFixedThreadPool(20);
-
 
     }
 
@@ -729,7 +723,7 @@ public class DownloaderControler {
 
     /*
         Check if update is needed for youtube-dl
-        "youtube-dl is up-to-date (2021.02.10)"
+        i.e. "youtube-dl is up-to-date (2021.02.10)"
     */
     public boolean checkYoutubeDlNeedsUpdate(){
 
@@ -750,7 +744,7 @@ public class DownloaderControler {
             };
 
             response = YoutubeDL.execute(request, callback);
-            result  =  response.getOut().contains(responseText);
+            result  =  !response.getOut().contains(responseText);
 
         } catch (YoutubeDLException e) {
             e.printStackTrace();

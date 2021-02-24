@@ -53,22 +53,23 @@ import static java.awt.SplashScreen.getSplashScreen;
 public class Start extends Application {
 
 
-    public static boolean prod = true;
     public static String version = "3.0.0";
 
-    private Stage aboutDialog=null;
 
-    private static Logger logger;
+
     //private String testUrl = "https://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo";
     //private String testUrl = "https://www.youtube.com/watch?v=GpMoRS_9bcM\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY";
     //private String testUrl = "https://www.youtube.com/watch?v=afF3XHW7mZ4&list=PLIgtqVSOWgBYF-K0KYfq8nFsyDDq0LrI7\nhttps://youtu.be/HWOWwO7XGgY"; //Dolly
     private String testUrl = "https://youtu.be/HWOWwO7XGgY\nhttps://www.youtube.com/watch?v=kUg7OO1gZk0&list=PLlQHeJpCWHxTr1Bs1tX840Tp2gKIU9l25"; //Undertones
-
+    private Stage aboutDialog=null;
+    private static Logger logger;
     private DownloaderControler myDownloadControler;
     private Boolean isDownloading=false;
-
-
     private Preferences prefs;
+    /*
+        "dev" startup command overrides this
+    */
+    public static boolean prod = true;
 
     public static void main(String[] args) {
         runApp(args);
@@ -145,14 +146,15 @@ public class Start extends Application {
 
             String installedVersion = YoutubeDL.getVersion();
             if(myDownloadControler.checkYoutubeDlNeedsUpdate()){
+                //Update needed
+                String msg = " -- New version of youtube-dl available! You can upgrade with 'sudo youtube-dl --update'";
+                myDownloadControler.settingsYoutubeDlVersion.setText(installedVersion.concat(msg));
+            }else{
+                //Update not needed
                 myDownloadControler.prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),installedVersion);
                 myDownloadControler.settingsYoutubeDlVersion.setText(prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue()));
-            }else{
-                myDownloadControler.settingsYoutubeDlVersion.setText(prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue()).concat(" (New version available; install with 'sudo youtube-dl --update/-U' )"));
             }
         }
-
-
 
         ChangeListener myChangeListenerBoolean = new ChangeListener<Boolean>(){
             @Override

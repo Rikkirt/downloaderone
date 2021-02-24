@@ -182,7 +182,7 @@
 
                      <Label id="label_socks_host_port" fx:id="settingsInputSocksHostPortLabel" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" text="Socks host port" GridPane.columnIndex="0" GridPane.rowIndex="5" />
                      <TextField fx:id="settingsInputSocksHostPort" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="0.0" promptText="Numbers only" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     <Label fx:id="settingslabelSocksHostPortMsg" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" visible="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                     <Label fx:id="settingslabelSocksHostPortMsg" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
                       <Label id="label_show_download_error_message" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Show download error message" GridPane.columnIndex="0" GridPane.rowIndex="6" />
                       <CheckBox fx:id="setttingsCheckShowDownloadErrorMessage" ellipsisString="" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkShowDowloadErrorMessage" prefHeight="26.0" prefWidth="0.0" text="Show download error message" GridPane.columnIndex="1" GridPane.rowIndex="6" />
