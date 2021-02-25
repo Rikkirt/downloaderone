@@ -14,7 +14,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -24,9 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.*;
 import java.net.URL;
@@ -354,19 +354,15 @@ public class DownloaderControler {
     public void settingsSaveButtonAction(ActionEvent actionEvent) {
 
         boolean continueSave = true;
-        HashMap <Label,String> errorMap = new HashMap<Label,String>();
-
-
+        //todo
         //Check for error before saving if needed....
-
+        HashMap <Label,String> errorMap = new HashMap<Label,String>();
 
 
         for(Label label:errorMap.keySet()){
             label.setText(errorMap.get(label));
             continueSave = false;
         }
-
-
 
         if(continueSave){
             prefs.put(PrefKeys.DOWNLOAD_DIR.getKey(),settingsInputDownloadLocation.getText());
@@ -504,10 +500,7 @@ public class DownloaderControler {
         if (file != null) {
             settingsInputTorLocation.setText(file.getAbsolutePath());
         }
-
     }
-
-
 
     /*
       Execute download for given url and reference
@@ -625,6 +618,10 @@ public class DownloaderControler {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Reference");
 
+        //DEV work in progress
+        dialog.initOwner(owner);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+
         // Set the button types.
         ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
@@ -662,6 +659,7 @@ public class DownloaderControler {
         });
 
         owner.getScene().setCursor(Cursor.WAIT);
+
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(ref -> {

@@ -6,36 +6,25 @@ import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import com.sapher.youtubedl.mapper.VideoInfo;
-import com.sun.javafx.logging.PlatformLogger;
-import com.sun.javafx.tk.ScreenConfigurationAccessor;
-import javafx.application.Platform;
-import javafx.beans.property.*;
-import javafx.concurrent.Task;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
-import org.apache.commons.text.WordUtils;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.awt.image.*;
-import java.util.logging.Logger;
+import javafx.beans.property.*;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.apache.commons.text.WordUtils;
+import org.controlsfx.control.Notifications;
 
 public class DownloadItemTask extends Task<Void>{
-
 
     public static final String SEARCHING = "Searching";
     public static final String FINISHED = "Finished";
@@ -45,7 +34,6 @@ public class DownloadItemTask extends Task<Void>{
     public static final String CANCELED = "Canceled";
     public static final String YES = "Yes";
     public static final String NO = "No";
-
 
     private final StringProperty videoItem;
     private final StringProperty titleItem;
@@ -58,7 +46,6 @@ public class DownloadItemTask extends Task<Void>{
     private final DoubleProperty progressBarItem;
     private final StringProperty videoFilesize;
     private final YoutubeDLRequest request;
-
     private YoutubeDLResponse response;
     private VideoInfo videoInfo;
 
@@ -91,9 +78,7 @@ public class DownloadItemTask extends Task<Void>{
     }
 
     public StringProperty videoFilesizeProperty() {
-
         setVideoFilesize();
-
         return videoFilesize;
     }
 
@@ -105,7 +90,6 @@ public class DownloadItemTask extends Task<Void>{
         this.videoInfo = videoInfo;
         this.setTitleItem(videoInfo.title);
         this.setVideoFilesize();
-
     }
 
     public String getVideoItem() {
@@ -119,7 +103,6 @@ public class DownloadItemTask extends Task<Void>{
     public void setVideoItem(String videoItem) {
         this.videoItem.set(videoItem);
     }
-
 
     public int getIdItem() {
         return idItem.get();
@@ -145,7 +128,6 @@ public class DownloadItemTask extends Task<Void>{
         this.progressItem.set(progress>0?progress*100:0);
     }
 
-
     public double getProgressBarItem() {
         return progressBarItem.get();
     }
@@ -157,10 +139,6 @@ public class DownloadItemTask extends Task<Void>{
     public void setProgressBarItem(double progress) {
         this.progressBarItem.set(progress);
     }
-
-
-
-
 
     public String getReferenceItem() {
         return referenceItem.get();
@@ -174,7 +152,6 @@ public class DownloadItemTask extends Task<Void>{
         this.referenceItem.set(reference);
     }
 
-
     public String getUrlItem() {
         return urlItem.get();
     }
@@ -186,7 +163,6 @@ public class DownloadItemTask extends Task<Void>{
     public void setUrlItem(String url) {
         this.urlItem.set(url);
     }
-
 
     public String getStartItem() {
         return startItem.get();
@@ -200,12 +176,9 @@ public class DownloadItemTask extends Task<Void>{
         this.startItem.set(start);
     }
 
-
-
     public StringProperty getStateItem() {
         return stateItem;
     }
-
 
     public StringProperty stateItemProperty() {
         return stateItem;
@@ -214,7 +187,6 @@ public class DownloadItemTask extends Task<Void>{
     public void setStateItem(String stateItem) {
         this.stateItem.set(stateItem);
     }
-
 
     public StringProperty getTitleItem() {
         return titleItem;
@@ -228,19 +200,13 @@ public class DownloadItemTask extends Task<Void>{
         this.titleItem.set(titleItem);
     }
 
-
-
-
     public YoutubeDLResponse getResponse(){
         return response;
     }
 
-
     public void setCheckShowDownloadErrorMessage(Boolean checkShowDownloadErrorMessage){
         this.checkShowDownloadErrorMessage = checkShowDownloadErrorMessage;
     }
-
-
 
     public DownloadItemTask(YoutubeDLRequest aRequest,Stage owner) {
 
@@ -254,12 +220,6 @@ public class DownloadItemTask extends Task<Void>{
         this.startItem = new SimpleStringProperty(LocalTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
 
         this.progressItem = new SimpleDoubleProperty(0); //getProgress()
-
-
-//        NumberFormat format1  = NumberFormat.getInstance();
-//        format1.getPercentInstance();
-//
-//        this.progressItem = new SimpleDoubleProperty(new Double(format1.format(0)));
 
         this.progressBarItem = new SimpleDoubleProperty(0); //getProgress()
 
@@ -297,7 +257,19 @@ public class DownloadItemTask extends Task<Void>{
             owner.getScene().setCursor(Cursor.DEFAULT);
 
             String msg = "Finished with downloading and conversion of '".concat(getReferenceItem()).concat("'");
-            new Notification(NotificationType.Info).setText(msg).show(5);
+
+            new Notification(owner, NotificationType.Info).setText(msg).show(5);
+//            Notifications.create()
+//                    .graphic(new ImageView("icons/info_black.png"))
+//                    .text(msg)
+//                    .owner(owner)
+//                    .position(Pos.TOP_RIGHT)
+//                    .hideAfter(Duration.seconds(3))
+//                    .title("Info for ".concat(getReferenceItem()))
+//                    .show();
+
+
+
         });
 
         setOnFailed(event -> {
@@ -314,7 +286,16 @@ public class DownloadItemTask extends Task<Void>{
                 msg = "Error downloading ".concat(getReferenceItem());
             }
 
-            new Notification(NotificationType.Error).setText(msg).show(5);
+            new Notification(owner, NotificationType.Error).setText(msg).show(5);
+
+//            Notifications.create()
+//                    .graphic(new ImageView("icons/error_black.png"))
+//                    .text(msg)
+//                    .owner(owner)
+//                    .position(Pos.TOP_RIGHT)
+//                    .hideAfter(Duration.seconds(7))
+//                    .title("Error for ".concat(getReferenceItem()))
+//                    .show();
 
 
         });
@@ -325,12 +306,11 @@ public class DownloadItemTask extends Task<Void>{
             updateProgress(0, 100);
 
             String msg = "Request cancelled for '".concat(getReferenceItem()).concat("'");
-            new Notification(NotificationType.Warning).setText(msg).show(7);
+            //new Notification(NotificationType.Warning).setText(msg).show(7);
 
         });
 
     }
-
 
     @Override
     protected Void call() throws Exception {
@@ -342,7 +322,7 @@ public class DownloadItemTask extends Task<Void>{
             if(aProgress==100.0){
                 updateMessage(CONVERTING);
                 updateProgress(0,100);
-            }
+             }
 
             updateProgress(aProgress, 100);
 
@@ -350,5 +330,4 @@ public class DownloadItemTask extends Task<Void>{
 
         return null;
     }
-
 }

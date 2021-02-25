@@ -70,10 +70,6 @@ public class Start extends Application {
     public static boolean prod = true;
 
     public static void main(String[] args) {
-        runApp(args);
-    }
-
-    public static void runApp(String[] args) {
 
         if(args.length>0){
             if(args[0].matches("dev")){
