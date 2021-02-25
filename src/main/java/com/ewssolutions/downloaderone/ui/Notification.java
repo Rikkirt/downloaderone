@@ -8,7 +8,6 @@ import org.controlsfx.control.Notifications;
 
 public class Notification  {
 
-    private long duration = 5;
     private final Notifications mNotifications;
 
     public Notification(Stage owner, NotificationType type){
@@ -30,8 +29,8 @@ public class Notification  {
         @duration: Max 10 seconds
      */
     public void show(long duration){
-        this.duration = Math.min(duration, 10);
-        mNotifications.hideAfter(Duration.seconds(this.duration));
+        long dur = Math.min(duration, 10);
+        mNotifications.hideAfter(Duration.seconds(dur));
         mNotifications.show();
     }
 }

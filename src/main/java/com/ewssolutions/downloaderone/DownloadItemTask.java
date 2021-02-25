@@ -257,18 +257,7 @@ public class DownloadItemTask extends Task<Void>{
             owner.getScene().setCursor(Cursor.DEFAULT);
 
             String msg = "Finished with downloading and conversion of '".concat(getReferenceItem()).concat("'");
-
             new Notification(owner, NotificationType.Info).setText(msg).show(5);
-//            Notifications.create()
-//                    .graphic(new ImageView("icons/info_black.png"))
-//                    .text(msg)
-//                    .owner(owner)
-//                    .position(Pos.TOP_RIGHT)
-//                    .hideAfter(Duration.seconds(3))
-//                    .title("Info for ".concat(getReferenceItem()))
-//                    .show();
-
-
 
         });
 
@@ -286,17 +275,7 @@ public class DownloadItemTask extends Task<Void>{
                 msg = "Error downloading ".concat(getReferenceItem());
             }
 
-            new Notification(owner, NotificationType.Error).setText(msg).show(5);
-
-//            Notifications.create()
-//                    .graphic(new ImageView("icons/error_black.png"))
-//                    .text(msg)
-//                    .owner(owner)
-//                    .position(Pos.TOP_RIGHT)
-//                    .hideAfter(Duration.seconds(7))
-//                    .title("Error for ".concat(getReferenceItem()))
-//                    .show();
-
+            new Notification(owner, NotificationType.Error).setText(msg).show(7);
 
         });
 
@@ -306,7 +285,7 @@ public class DownloadItemTask extends Task<Void>{
             updateProgress(0, 100);
 
             String msg = "Request cancelled for '".concat(getReferenceItem()).concat("'");
-            //new Notification(NotificationType.Warning).setText(msg).show(7);
+            new Notification(owner, NotificationType.Warning).setText(msg).show(7);
 
         });
 

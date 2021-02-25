@@ -3,6 +3,8 @@ package com.ewssolutions.downloaderone;
 import com.ewssolutions.downloaderone.ui.ActionButtonCell;
 import com.ewssolutions.downloaderone.ui.AutoCompleteComboBoxListener;
 
+import com.ewssolutions.downloaderone.ui.Notification;
+import com.ewssolutions.downloaderone.ui.NotificationType;
 import com.ewssolutions.downloaderone.util.PrefKeys;
 import com.sapher.youtubedl.YoutubeDL;
 import javafx.application.Application;
@@ -418,9 +420,9 @@ public class Start extends Application {
                 logger.log(Level.INFO, "Not supported Desktop open");
 
                 String msg = "\"Not supported Desktop open\"";
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(msg);
-                alert.show();
+                new Notification(null, NotificationType.Warning).setText(msg).show(5);
+
+
             }
 
         });
@@ -638,9 +640,8 @@ public class Start extends Application {
 
         if(isDownloading()){
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Still downloading, please wait.");
-            alert.show();
+            String msg = "Still downloading, please wait";
+            new Notification(null, NotificationType.Warning).setText(msg).show(5);
 
             //reset to false for a next try
             isDownloading(false);
