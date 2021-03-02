@@ -727,7 +727,7 @@ public class DownloaderControler {
                 @Override
                 public void onProgressUpdate(String destination, float progress, long etaInSeconds) {
                     //System.out.println("Destination: "+destination );
-                    System.out.println("Update control: "+progress+"%, "+etaInSeconds+" sec/ to go." );
+                    //System.out.println("Update control: "+progress+"%, "+etaInSeconds+" sec/ to go." );
                 }
 
             };

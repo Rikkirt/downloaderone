@@ -55,7 +55,7 @@ import static java.awt.SplashScreen.getSplashScreen;
 public class Start extends Application {
 
 
-    public static String version = "4.1.0";
+    public static String version = "4.2.0";
 
     //private String testUrl = "https://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo";
     //private String testUrl = "https://www.youtube.com/watch?v=GpMoRS_9bcM\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY";
@@ -72,6 +72,8 @@ public class Start extends Application {
         "dev" startup command overrides this
     */
     public static boolean prod = true;
+    public boolean showUpdateNotification = false;
+    private String msg = "New version of youtube-dl available! You can upgrade with 'sudo youtube-dl --update'";
 
     public static void main(String[] args) {
 
@@ -145,8 +147,10 @@ public class Start extends Application {
             String installedVersion = YoutubeDL.getVersion();
             if(myDownloadController.checkYoutubeDlNeedsUpdate()){
                 //Update needed
-                String msg = " -- New version of youtube-dl available! You can upgrade with 'sudo youtube-dl --update'";
-                myDownloadController.settingsYoutubeDlVersion.setText(installedVersion.concat(msg));
+                myDownloadController.settingsYoutubeDlVersion.setText(installedVersion.concat(" -- "+msg));
+                //Show Notification when Stage is Shown
+                showUpdateNotification = true;
+
             }else{
                 //Update not needed
                 myDownloadController.prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),installedVersion);
@@ -612,6 +616,7 @@ public class Start extends Application {
 
         });
 
+
         //Show Main Window
         primaryStage.show();
         //Close Splash
@@ -619,6 +624,9 @@ public class Start extends Application {
             splash.close();
         }
 
+        if(showUpdateNotification){
+            new Notification(myDownloadController.owner, NotificationType.Info).setText(msg).show(7);
+        }
     }
 
     @Override
