@@ -211,7 +211,6 @@ public class DownloaderControler {
 
                         progressbar.setVisible(true);
 
-
                     }
                 }
             }
@@ -239,8 +238,6 @@ public class DownloaderControler {
 
 
             showReferenceDialog();
-
-
 
             if(continueDownload) {
 
@@ -525,6 +522,7 @@ public class DownloaderControler {
         //proxyUrl.append(prefs.get(PrefKeys.SOCKS_PROXY_HOST.getKey(),PrefKeys.SOCKS_PROXY_HOST.getDefaultValue()));
         String dirString = prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue());
 
+        //Using reference as DIR needed for metatag
         String dirName = dirString.concat("/"+reference);
 
         //Create Dir
@@ -580,27 +578,18 @@ public class DownloaderControler {
 
         //request.setOption("print-traffic");
 
-        //Metadata use Apache Tika
-//        request.setOption("add-metadata");
-//        request.setOption("metadata-from-title","%(artist)s %(title)s");
-//        request.setOption("postprocessor-args","-metadata artist=%(artist)s");
-
-
-        //--add-metadata --postprocessor-args "-metadata artist=Pink\ Floyd"
-
-
-
         DownloadItemTask downloadItemTaskTask = new DownloadItemTask(request,owner);
         downloadItemTaskTask.setCheckShowDownloadErrorMessage(Boolean.valueOf(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
+
+        downloadItemTaskTask.setVideoItem(checkVideo.isSelected()?DownloadItemTask.YES:DownloadItemTask.NO);
+        downloadItemTaskTask.setReferenceItem(reference.concat(extraReference));
+        downloadItemTaskTask.setDirReferenceItem(reference);
+        downloadItemTaskTask.setIdItem(downloadTableItemTasks.size());
 
         //Updates the table view
         downloadTableItemTasks.add(downloadItemTaskTask);
         //List executable Tasks
         downloadTaskList.add(downloadItemTaskTask);
-
-        downloadItemTaskTask.setVideoItem(checkVideo.isSelected()?DownloadItemTask.YES:DownloadItemTask.NO);
-        downloadItemTaskTask.setReferenceItem(reference+extraReference);
-        downloadItemTaskTask.setIdItem(downloadTableItemTasks.size());
 
     }
 
@@ -736,9 +725,11 @@ public class DownloaderControler {
 
             DownloadProgressCallback callback = new DownloadProgressCallback() {
                 @Override
-                public void onProgressUpdate(float progress, long etaInSeconds) {
+                public void onProgressUpdate(String destination, float progress, long etaInSeconds) {
+                    //System.out.println("Destination: "+destination );
                     System.out.println("Update control: "+progress+"%, "+etaInSeconds+" sec/ to go." );
                 }
+
             };
 
             response = YoutubeDL.execute(request, callback);

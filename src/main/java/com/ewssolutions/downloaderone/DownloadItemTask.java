@@ -2,27 +2,34 @@ package com.ewssolutions.downloaderone;
 
 import com.ewssolutions.downloaderone.ui.Notification;
 import com.ewssolutions.downloaderone.ui.NotificationType;
+import com.ewssolutions.downloaderone.util.PrefKeys;
+import com.mpatric.mp3agic.*;
 import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import com.sapher.youtubedl.mapper.VideoInfo;
 
-import java.awt.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.prefs.Preferences;
+
 import javafx.beans.property.*;
 import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.WordUtils;
-import org.controlsfx.control.Notifications;
+
+import static com.ewssolutions.downloaderone.Start.myDownloadController;
+import static com.ewssolutions.downloaderone.util.PrefKeys.DOWNLOAD_DIR;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 
 public class DownloadItemTask extends Task<Void>{
 
@@ -42,12 +49,16 @@ public class DownloadItemTask extends Task<Void>{
     private final StringProperty stateItem;
     private final StringProperty urlItem;
     private final StringProperty referenceItem;
+
     private final DoubleProperty progressItem;
     private final DoubleProperty progressBarItem;
     private final StringProperty videoFilesize;
     private final YoutubeDLRequest request;
     private YoutubeDLResponse response;
     private VideoInfo videoInfo;
+
+    private String destination;
+    private String dirReferenceItem;
 
     public boolean checkShowDownloadErrorMessage;
 
@@ -152,6 +163,14 @@ public class DownloadItemTask extends Task<Void>{
         this.referenceItem.set(reference);
     }
 
+    public void setDirReferenceItem(String reference) {
+        this.dirReferenceItem = reference;
+    }
+
+    public String getDirReferenceItem() {
+        return this.dirReferenceItem;
+    }
+
     public String getUrlItem() {
         return urlItem.get();
     }
@@ -200,6 +219,14 @@ public class DownloadItemTask extends Task<Void>{
         this.titleItem.set(titleItem);
     }
 
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getDestination() {
+        return this.destination;
+    }
+
     public YoutubeDLResponse getResponse(){
         return response;
     }
@@ -215,6 +242,7 @@ public class DownloadItemTask extends Task<Void>{
         this.idItem = new SimpleIntegerProperty(0);
 
         this.referenceItem=new SimpleStringProperty("No reference");
+
         this.urlItem = new SimpleStringProperty(aRequest.getUrl());
 
         this.startItem = new SimpleStringProperty(LocalTime.now().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
@@ -252,6 +280,9 @@ public class DownloadItemTask extends Task<Void>{
         });
 
         setOnSucceeded(event -> {
+
+            //setMetaFile Tags
+            setMetaTags();
 
             updateMessage(FINISHED);
             owner.getScene().setCursor(Cursor.DEFAULT);
@@ -296,9 +327,10 @@ public class DownloadItemTask extends Task<Void>{
 
         setVideoInfo(YoutubeDL.getVideoInfo(request.getUrl()));
 
-        response = YoutubeDL.execute(request, (aProgress, etaInSeconds) -> {
+        response = YoutubeDL.execute(request, (aDestination, aProgress, etaInSeconds) -> {
 
             if(aProgress==100.0){
+                setDestination(aDestination);
                 updateMessage(CONVERTING);
                 updateProgress(0,100);
              }
@@ -308,5 +340,66 @@ public class DownloadItemTask extends Task<Void>{
         });
 
         return null;
+    }
+
+    private void setMetaTags(){
+
+        Mp3File mp3file = null;
+
+        String ext = FilenameUtils.getExtension(destination);
+        String newDestination = destination;
+
+        /*
+            Only mp3 for now. Make variable for different extensions.
+         */
+        if(!ext.contentEquals("mp3")){
+            newDestination = getDestination().substring(0,getDestination().length()-ext.length()).concat("mp3");
+        }
+
+        String location =  myDownloadController.prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue()).concat("/"+getDirReferenceItem()).concat("/"+newDestination);
+        File originalMP3 = new File(location);
+
+        if(originalMP3.exists()){
+
+            try {
+
+                mp3file = new Mp3File(location);
+
+                ID3v2 id3v2Tag;
+                if (mp3file.hasId3v2Tag()) {
+                    id3v2Tag = mp3file.getId3v2Tag();
+                } else {
+                    // mp3 does not have an ID3v2 tag, let's create one..
+                    id3v2Tag = new ID3v24Tag();
+                    mp3file.setId3v2Tag(id3v2Tag);
+                }
+
+                String name = newDestination.substring(newDestination.lastIndexOf("/")+1,newDestination.lastIndexOf("-")-1);
+                String title = newDestination.substring(newDestination.lastIndexOf("-")+1,getDestination().length()-ext.length()-1);
+
+                id3v2Tag.setArtist(name);
+                id3v2Tag.setTitle(title);
+                id3v2Tag.setAlbum("Best of");
+                id3v2Tag.setAlbumArtist(name);
+
+                location =  myDownloadController.prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue())
+                        .concat("/"+getDirReferenceItem())
+                        .concat("/"+title.trim())
+                        .concat(".mp3");
+
+                new File(location);
+
+                mp3file.save(location);
+
+                if(!originalMP3.delete()){
+                    System.out.println("File could not be removed");
+                }
+
+            } catch (IOException | UnsupportedTagException | InvalidDataException | NotSupportedException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("No File Found, could not set metatags");
+        }
     }
 }

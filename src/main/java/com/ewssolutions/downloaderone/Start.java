@@ -61,9 +61,11 @@ public class Start extends Application {
     //private String testUrl = "https://www.youtube.com/watch?v=GpMoRS_9bcM\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY";
     //private String testUrl = "https://www.youtube.com/watch?v=afF3XHW7mZ4&list=PLIgtqVSOWgBYF-K0KYfq8nFsyDDq0LrI7\nhttps://youtu.be/HWOWwO7XGgY"; //Dolly
     private String testUrl = "https://youtu.be/HWOWwO7XGgY\nhttps://www.youtube.com/watch?v=kUg7OO1gZk0&list=PLlQHeJpCWHxTr1Bs1tX840Tp2gKIU9l25"; //Undertones
+    //private String testUrl = "https://youtu.be/HWOWwO7XGgY"; //Manse
+
     private Stage aboutDialog=null;
     private static Logger logger;
-    private DownloaderControler myDownloadControler;
+    public static DownloaderControler myDownloadController;
     private Boolean isDownloading=false;
     private Preferences prefs;
     /*
@@ -103,17 +105,17 @@ public class Start extends Application {
 
         Platform.setImplicitExit(true);
 
-        myDownloadControler = loader.getController();
+        myDownloadController = loader.getController();
         //TODO refactor like this
         //myDownloadControler.intialize();
         //myDownloaderOneMenuBar().initialize();
         //TODO refactor
 
-        myDownloadControler.webview.getEngine().getHistory().setMaxSize(0);
-        myDownloadControler.owner = primaryStage;
+        myDownloadController.webview.getEngine().getHistory().setMaxSize(0);
+        myDownloadController.owner = primaryStage;
 
         //Location /home/ews/.java/.userPrefs/
-        myDownloadControler.prefs = prefs = Preferences.userRoot().node(this.getClass().getName());
+        myDownloadController.prefs = prefs = Preferences.userRoot().node(this.getClass().getName());
 
         //load default values in prefs
         if(prefs.keys().length==0){
@@ -130,25 +132,25 @@ public class Start extends Application {
         }
 
         //load default values in settings screen
-        myDownloadControler.settingsInputDownloadLocation.setText(prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue()));
-        myDownloadControler.settingsInputTorLocation.setText(prefs.get(PrefKeys.TOR_LOCATION.getKey(),PrefKeys.TOR_LOCATION.getDefaultValue()));
-        myDownloadControler.setttingsCheckUseSocksProxy.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.USE_SOCKS_PROXY.getKey(),PrefKeys.USE_SOCKS_PROXY.getDefaultValue())));
-        myDownloadControler.settingsInputSocksHostIp.setText(prefs.get(PrefKeys.SOCKS_PROXY_HOST.getKey(),PrefKeys.SOCKS_PROXY_HOST.getDefaultValue()));
-        myDownloadControler.settingsInputSocksHostPort.setText(prefs.get(PrefKeys.SOCKS_PROXY_PORT.getKey(),PrefKeys.SOCKS_PROXY_PORT.getDefaultValue()));
-        myDownloadControler.setttingsCheckShowDownloadErrorMessage.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
+        myDownloadController.settingsInputDownloadLocation.setText(prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue()));
+        myDownloadController.settingsInputTorLocation.setText(prefs.get(PrefKeys.TOR_LOCATION.getKey(),PrefKeys.TOR_LOCATION.getDefaultValue()));
+        myDownloadController.setttingsCheckUseSocksProxy.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.USE_SOCKS_PROXY.getKey(),PrefKeys.USE_SOCKS_PROXY.getDefaultValue())));
+        myDownloadController.settingsInputSocksHostIp.setText(prefs.get(PrefKeys.SOCKS_PROXY_HOST.getKey(),PrefKeys.SOCKS_PROXY_HOST.getDefaultValue()));
+        myDownloadController.settingsInputSocksHostPort.setText(prefs.get(PrefKeys.SOCKS_PROXY_PORT.getKey(),PrefKeys.SOCKS_PROXY_PORT.getDefaultValue()));
+        myDownloadController.setttingsCheckShowDownloadErrorMessage.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
 
         //Check Youtube-dl version
         if(prod){
 
             String installedVersion = YoutubeDL.getVersion();
-            if(myDownloadControler.checkYoutubeDlNeedsUpdate()){
+            if(myDownloadController.checkYoutubeDlNeedsUpdate()){
                 //Update needed
                 String msg = " -- New version of youtube-dl available! You can upgrade with 'sudo youtube-dl --update'";
-                myDownloadControler.settingsYoutubeDlVersion.setText(installedVersion.concat(msg));
+                myDownloadController.settingsYoutubeDlVersion.setText(installedVersion.concat(msg));
             }else{
                 //Update not needed
-                myDownloadControler.prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),installedVersion);
-                myDownloadControler.settingsYoutubeDlVersion.setText(prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue()));
+                myDownloadController.prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),installedVersion);
+                myDownloadController.settingsYoutubeDlVersion.setText(prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue()));
             }
         }
 
@@ -157,9 +159,9 @@ public class Start extends Application {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(oldValue==newValue){
 
-                    myDownloadControler.setVisibileSaveCancelButtons(false);
+                    myDownloadController.setVisibileSaveCancelButtons(false);
                 }else{
-                    myDownloadControler.setVisibileSaveCancelButtons(true);
+                    myDownloadController.setVisibileSaveCancelButtons(true);
                 }
             }
 
@@ -169,9 +171,9 @@ public class Start extends Application {
             @Override
             public void changed(ObservableValue observable, String oldValue, String newValue) {
                 if(oldValue.contentEquals(newValue)){
-                    myDownloadControler.setVisibileSaveCancelButtons(false);
+                    myDownloadController.setVisibileSaveCancelButtons(false);
                 }else{
-                    myDownloadControler.setVisibileSaveCancelButtons(true);
+                    myDownloadController.setVisibileSaveCancelButtons(true);
                 }
             }
         };
@@ -206,68 +208,68 @@ public class Start extends Application {
 
         TextFormatter<String> ipTextFormatter = new TextFormatter<>(ipAddressFilter);
 
-        myDownloadControler.settingsInputDownloadLocation.textProperty().addListener(myChangeListener);
-        myDownloadControler.settingsInputTorLocation.textProperty().addListener(myChangeListener);
+        myDownloadController.settingsInputDownloadLocation.textProperty().addListener(myChangeListener);
+        myDownloadController.settingsInputTorLocation.textProperty().addListener(myChangeListener);
 
-        myDownloadControler.setttingsCheckUseSocksProxy.selectedProperty().addListener(myChangeListenerBoolean);
+        myDownloadController.setttingsCheckUseSocksProxy.selectedProperty().addListener(myChangeListenerBoolean);
 
-        myDownloadControler.settingsInputSocksHostIp.textProperty().addListener(myChangeListener);
-        myDownloadControler.settingsInputSocksHostIp.setTextFormatter(ipTextFormatter);
+        myDownloadController.settingsInputSocksHostIp.textProperty().addListener(myChangeListener);
+        myDownloadController.settingsInputSocksHostIp.setTextFormatter(ipTextFormatter);
 
-        myDownloadControler.settingsInputSocksHostPort.textProperty().addListener(myChangeListener);
-        myDownloadControler.settingsInputSocksHostPort.setTextFormatter(integerTextFormatter);
+        myDownloadController.settingsInputSocksHostPort.textProperty().addListener(myChangeListener);
+        myDownloadController.settingsInputSocksHostPort.setTextFormatter(integerTextFormatter);
 
-        myDownloadControler.setttingsCheckShowDownloadErrorMessage.selectedProperty().addListener(myChangeListenerBoolean);
+        myDownloadController.setttingsCheckShowDownloadErrorMessage.selectedProperty().addListener(myChangeListenerBoolean);
 
 
-        myDownloadControler.checkUseSocksProxy();
+        myDownloadController.checkUseSocksProxy();
 
 
 
         if (prod) {
-            if(myDownloadControler.setttingsCheckUseSocksProxy.isSelected()){
-                myDownloadControler.startTor();
+            if(myDownloadController.setttingsCheckUseSocksProxy.isSelected()){
+                myDownloadController.startTor();
             }
         }
 
-        myDownloadControler.progressbar.setProgress(0);
-        myDownloadControler.progressbar.setVisible(true);
+        myDownloadController.progressbar.setProgress(0);
+        myDownloadController.progressbar.setVisible(true);
 
         if (prod) {
-            myDownloadControler.version.setText("DownloaderOne");
+            myDownloadController.version.setText("DownloaderOne");
 
 
-            myDownloadControler.progressbar.setVisible(true);
-            myDownloadControler.progressbar.setProgress(0);
-            myDownloadControler.progressbar.progressProperty().bind(myDownloadControler.webview.getEngine().getLoadWorker().progressProperty());
+            myDownloadController.progressbar.setVisible(true);
+            myDownloadController.progressbar.setProgress(0);
+            myDownloadController.progressbar.progressProperty().bind(myDownloadController.webview.getEngine().getLoadWorker().progressProperty());
 
 
-            myDownloadControler.checkVideo.setDisable(true);
-            myDownloadControler.downloadButton.setDisable(true);
-            myDownloadControler.clearButton.setDisable(true);
+            myDownloadController.checkVideo.setDisable(true);
+            myDownloadController.downloadButton.setDisable(true);
+            myDownloadController.clearButton.setDisable(true);
 
 
-            myDownloadControler.downloadUrlTextField.setPromptText("Download url(s)");
-            myDownloadControler.site.setPromptText("Select website");
+            myDownloadController.downloadUrlTextField.setPromptText("Download url(s)");
+            myDownloadController.site.setPromptText("Select website");
 
 
 
         }else{
-            myDownloadControler.downloadUrlTextField.setText(testUrl);
+            myDownloadController.downloadUrlTextField.setText(testUrl);
             setdownloadUrlTextFieldSize(testUrl);
         }
 
 
-        myDownloadControler.downloadUrlTextField.textProperty().addListener((obs, oldText, newText) -> {
+        myDownloadController.downloadUrlTextField.textProperty().addListener((obs, oldText, newText) -> {
 
             if(newText.length()>0){
-                myDownloadControler.checkVideo.setDisable(false);
-                myDownloadControler.downloadButton.setDisable(false);
-                myDownloadControler.clearButton.setDisable(false);
+                myDownloadController.checkVideo.setDisable(false);
+                myDownloadController.downloadButton.setDisable(false);
+                myDownloadController.clearButton.setDisable(false);
             }else{
-                myDownloadControler.checkVideo.setDisable(true);
-                myDownloadControler.downloadButton.setDisable(true);
-                myDownloadControler.clearButton.setDisable(true);
+                myDownloadController.checkVideo.setDisable(true);
+                myDownloadController.downloadButton.setDisable(true);
+                myDownloadController.clearButton.setDisable(true);
 
             }
 
@@ -299,28 +301,27 @@ public class Start extends Application {
 
         MenuItem downloadListItem = new MenuItem("List");
         downloadListItem.setOnAction(actionEvent -> {
-            SingleSelectionModel<Tab> selectionModel = myDownloadControler.tabPaneDownloaderOne.getSelectionModel();
-            selectionModel.select(myDownloadControler.tabDownload);
+            SingleSelectionModel<Tab> selectionModel = myDownloadController.tabPaneDownloaderOne.getSelectionModel();
+            selectionModel.select(myDownloadController.tabDownload);
         });
 
         MenuItem searchItem = new MenuItem("Search");
         searchItem.setOnAction(actionEvent -> {
-            SingleSelectionModel<Tab> selectionModel = myDownloadControler.tabPaneDownloaderOne.getSelectionModel();
-            selectionModel.select(myDownloadControler.tabSearch);
+            SingleSelectionModel<Tab> selectionModel = myDownloadController.tabPaneDownloaderOne.getSelectionModel();
+            selectionModel.select(myDownloadController.tabSearch);
         });
 
 
         MenuItem settingsMenuItem = new MenuItem("Settings");
         settingsMenuItem.setOnAction(actionEvent -> {
-            SingleSelectionModel<Tab> selectionModel = myDownloadControler.tabPaneDownloaderOne.getSelectionModel();
-            selectionModel.select(myDownloadControler.tabSettings);
+            SingleSelectionModel<Tab> selectionModel = myDownloadController.tabPaneDownloaderOne.getSelectionModel();
+            selectionModel.select(myDownloadController.tabSettings);
 
         });
 
 
         MenuItem aboutMenuItem = new MenuItem("About");
         aboutMenuItem.setOnAction(actionEvent -> {
-
 
             aboutDialog = new Stage();
 
@@ -329,10 +330,8 @@ public class Start extends Application {
             aboutDialog.setMinWidth(400);
             aboutDialog.setMinHeight(300);
 
-
             VBox dialogVbox = new VBox(10);
             dialogVbox.setAlignment(Pos.CENTER);
-
 
             try {
 
@@ -422,37 +421,34 @@ public class Start extends Application {
                 String msg = "\"Not supported Desktop open\"";
                 new Notification(null, NotificationType.Warning).setText(msg).show(5);
 
-
             }
 
         });
-
 
         fileMenu.getItems().addAll(openDirMenuItem, new SeparatorMenuItem(), exitMenuItem);
         editMenu.getItems().add(settingsMenuItem);
         downloadMenu.getItems().addAll(downloadListItem,searchItem);
         helpMenu.getItems().addAll(aboutMenuItem);
 
-
         menuBar.getMenus().addAll(fileMenu,editMenu,downloadMenu,helpMenu);
 
-        new AutoCompleteComboBoxListener<>(myDownloadControler.site);
+        new AutoCompleteComboBoxListener<>(myDownloadController.site);
 
         //ImageTorActive
-        myDownloadControler.imageTorActive.setImage(new Image("images/tor_active.png"));
-        myDownloadControler.setTorStartedImageOpacity();
-        myDownloadControler.getPropertyTorStarted().addListener(new ChangeListener<Boolean>() {
+        myDownloadController.imageTorActive.setImage(new Image("images/tor_active.png"));
+        myDownloadController.setTorStartedImageOpacity();
+        myDownloadController.getPropertyTorStarted().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                myDownloadControler.setTorStartedImageOpacity();
+                myDownloadController.setTorStartedImageOpacity();
             }
         });
 
-        myDownloadControler.startColumn.setCellValueFactory(new PropertyValueFactory<>("startItem"));
-        myDownloadControler.startColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.08)); // w * 1/16
+        myDownloadController.startColumn.setCellValueFactory(new PropertyValueFactory<>("startItem"));
+        myDownloadController.startColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.08)); // w * 1/16
 
-        myDownloadControler.stateColumn.setCellValueFactory(new PropertyValueFactory<>("stateItem"));
-        myDownloadControler.stateColumn.setCellFactory(downloadItemTaskStringTableColumn -> new TableCell<DownloadItemTask,String>() {
+        myDownloadController.stateColumn.setCellValueFactory(new PropertyValueFactory<>("stateItem"));
+        myDownloadController.stateColumn.setCellFactory(downloadItemTaskStringTableColumn -> new TableCell<DownloadItemTask,String>() {
 
             @Override
             protected void updateItem(String state, boolean empty) {
@@ -468,20 +464,18 @@ public class Start extends Application {
             }
         });
 
-        myDownloadControler.stateColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
+        myDownloadController.stateColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
 
+        myDownloadController.progressPercentageColumn = new TableColumn<>();
+        myDownloadController.progressBarColumn = new TableColumn<>();
 
-        myDownloadControler.progressPercentageColumn = new TableColumn<>();
-        myDownloadControler.progressBarColumn = new TableColumn<>();
+        myDownloadController.columnProgress.getColumns().addAll(myDownloadController.progressBarColumn, myDownloadController.progressPercentageColumn);
 
-        myDownloadControler.columnProgress.getColumns().addAll(myDownloadControler.progressBarColumn,myDownloadControler.progressPercentageColumn);
+        myDownloadController.progressPercentageColumn.setStyle("-fx-pref-height: 0;");
+        myDownloadController.progressBarColumn.setStyle("-fx-pref-height: 0;");
 
-        myDownloadControler.progressPercentageColumn.setStyle("-fx-pref-height: 0;");
-        myDownloadControler.progressBarColumn.setStyle("-fx-pref-height: 0;");
-
-
-        myDownloadControler.progressPercentageColumn.setCellValueFactory(new PropertyValueFactory<>("progressItem"));
-        myDownloadControler.progressPercentageColumn.setCellFactory(column-> new TableCell<DownloadItemTask, Double>() {
+        myDownloadController.progressPercentageColumn.setCellValueFactory(new PropertyValueFactory<>("progressItem"));
+        myDownloadController.progressPercentageColumn.setCellFactory(column-> new TableCell<DownloadItemTask, Double>() {
 
             @Override
             protected void updateItem(Double progress, boolean empty) {
@@ -501,36 +495,36 @@ public class Start extends Application {
             }
         });
 
-        myDownloadControler.progressPercentageColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.05)); // w * 1/16
+        myDownloadController.progressPercentageColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.05)); // w * 1/16
 
 
-        myDownloadControler.progressBarColumn.setCellValueFactory(new PropertyValueFactory<>("progressBarItem"));
-        myDownloadControler.progressBarColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
-        myDownloadControler.progressBarColumn.setCellFactory(ProgressBarTableCell.forTableColumn());
+        myDownloadController.progressBarColumn.setCellValueFactory(new PropertyValueFactory<>("progressBarItem"));
+        myDownloadController.progressBarColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
+        myDownloadController.progressBarColumn.setCellFactory(ProgressBarTableCell.forTableColumn());
 
-        myDownloadControler.titleColumn.setCellValueFactory(new PropertyValueFactory<>("titleItem"));
-        myDownloadControler.titleColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.24)); // w * 1/16
+        myDownloadController.titleColumn.setCellValueFactory(new PropertyValueFactory<>("titleItem"));
+        myDownloadController.titleColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.24)); // w * 1/16
 
-        myDownloadControler.videoColumn.setCellValueFactory(new PropertyValueFactory<>("videoItem"));
-        myDownloadControler.videoColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.05)); // w * 1/16
+        myDownloadController.videoColumn.setCellValueFactory(new PropertyValueFactory<>("videoItem"));
+        myDownloadController.videoColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.05)); // w * 1/16
 
-        myDownloadControler.filesizeColumn.setCellValueFactory(new PropertyValueFactory<>("videoFilesize"));
-        myDownloadControler.filesizeColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.08)); // w * 1/16
+        myDownloadController.filesizeColumn.setCellValueFactory(new PropertyValueFactory<>("videoFilesize"));
+        myDownloadController.filesizeColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.08)); // w * 1/16
 
-        myDownloadControler.referenceColumn.setCellValueFactory(new PropertyValueFactory<>("referenceItem"));
-        myDownloadControler.referenceColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
+        myDownloadController.referenceColumn.setCellValueFactory(new PropertyValueFactory<>("referenceItem"));
+        myDownloadController.referenceColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.10)); // w * 1/16
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
-        myDownloadControler.actionColumn.setCellValueFactory(features -> new SimpleBooleanProperty(features.getValue() != null));
-        myDownloadControler.actionColumn.prefWidthProperty().bind(myDownloadControler.downloadTable.widthProperty().multiply(0.20)); // w * 1/16
+        myDownloadController.actionColumn.setCellValueFactory(features -> new SimpleBooleanProperty(features.getValue() != null));
+        myDownloadController.actionColumn.prefWidthProperty().bind(myDownloadController.downloadTable.widthProperty().multiply(0.20)); // w * 1/16
 
         // create a cell value factory with an add button for each row in the table.
-        myDownloadControler.actionColumn.setCellFactory(downloadItemTaskTableColumn -> new ActionButtonCell(primaryStage, myDownloadControler));
+        myDownloadController.actionColumn.setCellFactory(downloadItemTaskTableColumn -> new ActionButtonCell(primaryStage, myDownloadController));
 
-        myDownloadControler.initDownloadTableData();
+        myDownloadController.initDownloadTableData();
 
         if(!prod)
-        myDownloadControler.downloadUrlTextField.setText(testUrl);
+        myDownloadController.downloadUrlTextField.setText(testUrl);
 
         PseudoClass searching = PseudoClass.getPseudoClass(DownloadItemTask.SEARCHING);
         PseudoClass downloading = PseudoClass.getPseudoClass(DownloadItemTask.DOWNLOADING);
@@ -539,7 +533,7 @@ public class Start extends Application {
         PseudoClass error = PseudoClass.getPseudoClass(DownloadItemTask.ERROR);
         PseudoClass canceled = PseudoClass.getPseudoClass(DownloadItemTask.CANCELED);
 
-        myDownloadControler.downloadTable.setRowFactory(tv -> {
+        myDownloadController.downloadTable.setRowFactory(tv -> {
 
             TableRow<DownloadItemTask> row = new TableRow<>();
 
@@ -610,7 +604,7 @@ public class Start extends Application {
             return row;
         });
 
-        myDownloadControler.tabDownload.setOnSelectionChanged(new EventHandler<Event>() {
+        myDownloadController.tabDownload.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
                 EventType et = event.getEventType();
@@ -631,7 +625,7 @@ public class Start extends Application {
     public void stop() {
 
         //Check active downloads:
-        myDownloadControler.downloadTable.getItems().forEach(downloadItemTask -> {
+        myDownloadController.downloadTable.getItems().forEach(downloadItemTask -> {
 
             if(downloadItemTask.getStateItem().get().contentEquals(DownloadItemTask.DOWNLOADING)){
                 isDownloading(true);
@@ -648,8 +642,8 @@ public class Start extends Application {
         }else{
             try {
                 //DEV work in progress
-                if (myDownloadControler.webview.getEngine().getUserDataDirectory() != null) {
-                    myDownloadControler.webview.getEngine().getUserDataDirectory().deleteOnExit();
+                if (myDownloadController.webview.getEngine().getUserDataDirectory() != null) {
+                    myDownloadController.webview.getEngine().getUserDataDirectory().deleteOnExit();
                 }
                 super.stop();
             } catch (Exception e) {
@@ -660,12 +654,7 @@ public class Start extends Application {
             System.exit(0);
 
         }
-
-
     }
-
-
-
 
     private void isDownloading(boolean isDownloading){
         this.isDownloading = isDownloading;
@@ -680,9 +669,9 @@ public class Start extends Application {
         //Resize textinput if more then 1 line
         int url = urls.split("\\n").length;
         if(url>=2){
-            myDownloadControler.downloadUrlTextField.setMinHeight(myDownloadControler.downloadUrlTextField.getMaxHeight());
+            myDownloadController.downloadUrlTextField.setMinHeight(myDownloadController.downloadUrlTextField.getMaxHeight());
         }else if(url<=1){
-            myDownloadControler.downloadUrlTextField.setMinHeight(myDownloadControler.downloadUrlTextField.getPrefHeight());
+            myDownloadController.downloadUrlTextField.setMinHeight(myDownloadController.downloadUrlTextField.getPrefHeight());
         }
     }
 

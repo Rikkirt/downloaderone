@@ -92,9 +92,9 @@ public class YoutubeDLRequest {
             builder.append(url.concat(" "));
 
         // Build options strings
-        Iterator it = options.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> it = options.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry option = (Map.Entry) it.next();
+            Map.Entry<String, String> option = it.next();
 
             String name = (String) option.getKey();
             String value = (String) option.getValue();

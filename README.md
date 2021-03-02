@@ -7,18 +7,17 @@ Using JavaFX, youtube-dl and
 Work in progress...
 
 WANT
-
-- LOGGER. If error, read error again after popup is gone/Log file system
-- Settings MetaTags in file with Apache Tika
-- Settings: Make possible to set different audio/video formats
+- LOGGER. More traceble and userviewable log.
 
 LIKE
+- Settings: Make possible to set different audio/video formats
 - Make Tab Play to play the downloads (or as play action in row)
 - No scrollbar horizontal and vertical when resizing
-- Get download url from task when downloading (info panel/dialog.modal)
 - Translations
 
 RESOLVED
+- Settings MetaTags in file with Apache Tika
+- Get download url from task when downloading (info panel/dialog.modal)
 - Playlist split If "?list=SDSGDGSD" then split it in different downloadTasks (youtube specific). Use youtube-dl command (example) 'https://www.youtube.com/watch?v=GpMoRS_9bcM&list=PLrO4SwMB0WVNM9d6bOjHJLZFTux5UuqnL' --flat-playlist --dump-single-json"
 - Make editable datalist initial websites/Combobox is editable
 - Duplicate id nr in table when restarting tasks check id before restart
