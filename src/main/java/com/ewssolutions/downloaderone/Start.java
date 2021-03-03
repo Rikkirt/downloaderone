@@ -258,21 +258,16 @@ public class Start extends Application {
         if (prod) {
             myDownloadController.version.setText("DownloaderOne");
 
-
             myDownloadController.progressbar.setVisible(true);
             myDownloadController.progressbar.setProgress(0);
             myDownloadController.progressbar.progressProperty().bind(myDownloadController.webview.getEngine().getLoadWorker().progressProperty());
-
 
             myDownloadController.checkVideo.setDisable(true);
             myDownloadController.downloadButton.setDisable(true);
             myDownloadController.clearButton.setDisable(true);
 
-
             myDownloadController.downloadUrlTextField.setPromptText("Download url(s)");
             myDownloadController.site.setPromptText("Select website");
-
-
 
         }else{
             myDownloadController.downloadUrlTextField.setText(testUrl);
