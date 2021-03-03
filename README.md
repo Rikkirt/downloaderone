@@ -11,10 +11,10 @@ Based on:
 - [Mp3agic](https://github.com/mpatric/mp3agic/ "Named link title")
 
 
-WANT
+NEED
 - LOGGER. More traceble and userviewable logs per download.
 
-LIKE
+WANT
 - Settings: Make possible to set different audio/video formats 
 - Make UI to play the downloads (or as play action in row)
 - Translations
