@@ -13,12 +13,11 @@ Bases on:
 Work in progress...
 
 WANT
-- LOGGER. More traceble and userviewable log.
+- LOGGER. More traceble and userviewable logs per download.
 
 LIKE
 - Settings: Make possible to set different audio/video formats 
 - Make UI to play the downloads (or as play action in row)
-- No scrollbar horizontal and vertical when resizing main window
 - Translations
 
 RESOLVED
