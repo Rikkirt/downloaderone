@@ -10,7 +10,7 @@ Based on:
 - [Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title")
 - [Mp3agic](https://github.com/mpatric/mp3agic/ "Named link title")
 
-  * youtube-dl must be present
+  *youtube-dl must be present
 
 
 NEED
