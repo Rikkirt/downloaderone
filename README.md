@@ -1,4 +1,4 @@
-DownloaderOne: Easy to use media downloader!
+DownloaderOne: Easy to use media downloader
 
 
 Based on:
