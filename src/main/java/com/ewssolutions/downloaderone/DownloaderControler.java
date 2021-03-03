@@ -668,7 +668,7 @@ public class DownloaderControler {
         downloadTable.setItems(downloadTableItemTasks);
         //init website url combobox
         try {
-            InputStream in = this.getClass().getClassLoader().getResourceAsStream("data/websites");
+            InputStream in = this.getClass().getClassLoader().getResourceAsStream("data/urls");
             reader = new BufferedReader(new InputStreamReader(in));
 
             String line;
