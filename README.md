@@ -1,16 +1,14 @@
 DownloaderOne: Easy to use media downloader!
 
 
-Bases on:
-- JavaFX 
-- youtube-dl
-- controlsfx
-- [Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title")
-- mp3agic
-- Apache commons
-- Jackson fasterxml
+Based on:
 
-Work in progress...
+- [JavaFX](https://openjfx.io/)
+- [Youtube-dl](https://github.com/ytdl-org/youtube-dl/ "Named link title")
+- [Controlsfx](https://github.com/controlsfx/controlsfx/ "Named link title")
+- [Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title")
+- [Mp3agic](https://github.com/mpatric/mp3agic/ "Named link title")
+
 
 WANT
 - LOGGER. More traceble and userviewable logs per download.
