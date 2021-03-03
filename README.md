@@ -1,8 +1,14 @@
+DownloaderOne: Easy to use media downloader!
 
-This is the DownloaderOne. Easy to work with media downloader.
 
-Using JavaFX, youtube-dl and
-[Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title") open source software.
+Bases on:
+- JavaFX 
+- youtube-dl
+- controlsfx
+- [Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title")
+- mp3agic
+- Apache commons
+- Jackson fasterxml
 
 Work in progress...
 
@@ -10,9 +16,9 @@ WANT
 - LOGGER. More traceble and userviewable log.
 
 LIKE
-- Settings: Make possible to set different audio/video formats
-- Make Tab Play to play the downloads (or as play action in row)
-- No scrollbar horizontal and vertical when resizing
+- Settings: Make possible to set different audio/video formats 
+- Make UI to play the downloads (or as play action in row)
+- No scrollbar horizontal and vertical when resizing main window
 - Translations
 
 RESOLVED
