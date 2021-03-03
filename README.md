@@ -1,5 +1,6 @@
 DownloaderOne: Easy to use media downloader
 
+License:  Apache-2.0
 
 Based on:
 
