@@ -75,8 +75,6 @@ public class Start extends Application {
 
     public static String version = "4.2.0";
 
-    //private String testUrl = "https://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo";
-    //private String testUrl = "https://www.youtube.com/watch?v=GpMoRS_9bcM\nhttps://youtu.be/HWOWwO7XGgY\nhttps://youtu.be/gmPEB4DAaQo\nhttps://youtu.be/PinCg7IGqHg\nhttps://youtu.be/HWOWwO7XGgY";
     //private String testUrl = "https://www.youtube.com/watch?v=afF3XHW7mZ4&list=PLIgtqVSOWgBYF-K0KYfq8nFsyDDq0LrI7\nhttps://youtu.be/HWOWwO7XGgY"; //Dolly
     private String testUrl = "https://youtu.be/HWOWwO7XGgY\nhttps://www.youtube.com/watch?v=kUg7OO1gZk0&list=PLlQHeJpCWHxTr1Bs1tX840Tp2gKIU9l25"; //Undertones
     //private String testUrl = "https://youtu.be/HWOWwO7XGgY"; //Manse
@@ -358,7 +356,7 @@ public class Start extends Application {
             try {
 
                 ImageView myImageView = new ImageView();
-                myImageView.setImage(new Image("images/downloaderOne.png"));
+                myImageView.setImage(new Image("images/downloader_one.png"));
                 myImageView.setFitHeight(150);
                 myImageView.setFitWidth(150);
                 myImageView.setPreserveRatio(true);
