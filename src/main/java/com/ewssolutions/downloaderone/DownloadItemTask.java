@@ -301,7 +301,11 @@ public class DownloadItemTask extends Task<Void>{
         setOnSucceeded(event -> {
 
             //setMetaFile Tags
-            setMetaTags();
+            if(myDownloadController.checkVideo.isSelected()){
+                System.out.println("When video is selected, metatags can not be set for now. Sorry!");
+            }else{
+                setMetaTags();
+            }
 
             updateMessage(FINISHED);
             owner.getScene().setCursor(Cursor.DEFAULT);
@@ -361,7 +365,14 @@ public class DownloadItemTask extends Task<Void>{
         return null;
     }
 
+    /*
+        Maybe swith to: http://www.jthink.net/jaudiotagger/examples_write.jsp
+        No problem with saving to same file.
+
+     */
     private void setMetaTags(){
+
+
 
         Mp3File mp3file = null;
 
@@ -369,7 +380,7 @@ public class DownloadItemTask extends Task<Void>{
         String newDestination = destination;
 
         /*
-            Only mp3 for now. Make variable for different extensions.
+            Search only mp3 for now. Make variable for different extensions.
          */
         if(!ext.contentEquals("mp3")){
             newDestination = getDestination().substring(0,getDestination().length()-ext.length()).concat("mp3");
@@ -393,8 +404,15 @@ public class DownloadItemTask extends Task<Void>{
                     mp3file.setId3v2Tag(id3v2Tag);
                 }
 
-                String name = newDestination.substring(newDestination.lastIndexOf("/")+1,newDestination.lastIndexOf("-")-1);
-                String title = newDestination.substring(newDestination.lastIndexOf("-")+1,getDestination().length()-ext.length()-1);
+                int slash = newDestination.lastIndexOf("/");
+
+                String name, title;
+                name = title = newDestination.substring(slash+1,getDestination().length()-ext.length()-1);
+
+                if(newDestination.substring(slash).contains("-")){
+                    name = newDestination.substring(slash+1,newDestination.lastIndexOf("-")-1);
+                    title = newDestination.substring(newDestination.lastIndexOf("-")+1,getDestination().length()-ext.length()-1);
+                }
 
                 id3v2Tag.setArtist(name);
                 id3v2Tag.setTitle(title);
@@ -418,7 +436,7 @@ public class DownloadItemTask extends Task<Void>{
                 e.printStackTrace();
             }
         }else{
-            System.out.println("No File Found, could not set metatags");
+            System.out.println("No MP3 File Found. Tags not set");
         }
     }
 }
