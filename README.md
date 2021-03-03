@@ -5,13 +5,12 @@ License:  Apache-2.0
 Based on:
 
 - [JavaFX](https://openjfx.io/)
-- [Youtube-dl](https://github.com/ytdl-org/youtube-dl/ "Named link title")*
+- [Youtube-dl](https://github.com/ytdl-org/youtube-dl/ "Named link title") (youtube-dl must be present on $PATH)
 - [Controlsfx](https://github.com/controlsfx/controlsfx/ "Named link title")
 - [Sapher Youtubedl-Java](https://github.com/sapher/youtubedl-java/ "Named link title")
 - [Mp3agic](https://github.com/mpatric/mp3agic/ "Named link title")
 
-  *youtube-dl must be present
-
+  
 
 NEED
 - LOGGER. More traceble and userviewable logs per download.
