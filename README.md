@@ -16,6 +16,7 @@ NEED
 - LOGGER. More traceble and userviewable logs per download.
 
 WANT
+- Finished message add title
 - Settings: Make possible to set different audio/video formats 
 - Make UI to play the downloads (or as play action in row)
 - Translations

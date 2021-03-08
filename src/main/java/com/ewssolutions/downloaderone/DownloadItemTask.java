@@ -27,17 +27,6 @@ import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import com.sapher.youtubedl.mapper.VideoInfo;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.prefs.Preferences;
-
 import javafx.beans.property.*;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
@@ -45,9 +34,15 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.WordUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static com.ewssolutions.downloaderone.Start.myDownloadController;
-import static com.ewssolutions.downloaderone.util.PrefKeys.DOWNLOAD_DIR;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 
 public class DownloadItemTask extends Task<Void>{
@@ -365,16 +360,9 @@ public class DownloadItemTask extends Task<Void>{
         return null;
     }
 
-    /*
-        Maybe swith to: http://www.jthink.net/jaudiotagger/examples_write.jsp
-        No problem with saving to same file.
-
-     */
     private void setMetaTags(){
 
-
-
-        Mp3File mp3file = null;
+        Mp3File mp3file;
 
         String ext = FilenameUtils.getExtension(destination);
         String newDestination = destination;
@@ -393,9 +381,20 @@ public class DownloadItemTask extends Task<Void>{
 
             try {
 
+                int slash = newDestination.lastIndexOf("/");
+
+                String artist, title;
+                artist = title = newDestination.substring(slash+1,getDestination().length()-ext.length()-1);
+
+                if(newDestination.substring(slash).contains("-")){
+                    artist = newDestination.substring(slash+1,newDestination.lastIndexOf("-")-1);
+                    title = newDestination.substring(newDestination.lastIndexOf("-")+1,getDestination().length()-ext.length()-1);
+                }
+
                 mp3file = new Mp3File(location);
 
                 ID3v2 id3v2Tag;
+
                 if (mp3file.hasId3v2Tag()) {
                     id3v2Tag = mp3file.getId3v2Tag();
                 } else {
@@ -404,20 +403,10 @@ public class DownloadItemTask extends Task<Void>{
                     mp3file.setId3v2Tag(id3v2Tag);
                 }
 
-                int slash = newDestination.lastIndexOf("/");
-
-                String name, title;
-                name = title = newDestination.substring(slash+1,getDestination().length()-ext.length()-1);
-
-                if(newDestination.substring(slash).contains("-")){
-                    name = newDestination.substring(slash+1,newDestination.lastIndexOf("-")-1);
-                    title = newDestination.substring(newDestination.lastIndexOf("-")+1,getDestination().length()-ext.length()-1);
-                }
-
-                id3v2Tag.setArtist(name);
+                id3v2Tag.setArtist(artist);
                 id3v2Tag.setTitle(title);
                 id3v2Tag.setAlbum("Best of");
-                id3v2Tag.setAlbumArtist(name);
+                id3v2Tag.setAlbumArtist(artist);
 
                 location =  myDownloadController.prefs.get(PrefKeys.DOWNLOAD_DIR.getKey(),PrefKeys.DOWNLOAD_DIR.getDefaultValue())
                         .concat("/"+getDirReferenceItem())
@@ -431,7 +420,6 @@ public class DownloadItemTask extends Task<Void>{
                 if(!originalMP3.delete()){
                     System.out.println("File could not be removed");
                 }
-
             } catch (IOException | UnsupportedTagException | InvalidDataException | NotSupportedException e) {
                 e.printStackTrace();
             }
