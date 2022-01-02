@@ -13,11 +13,13 @@ Based on:
   
 
 NEED
+- In Settings: Make possible to set different audio/video formats (At least mp3 and opus)
+- In Settings: Make possible to set different quality levels
 - LOGGER. More traceble and userviewable logs per download.
 
 WANT
 - Finished message add title
-- Settings: Make possible to set different audio/video formats 
+
 - Make UI to play the downloads (or as play action in row)
 - Translations
 

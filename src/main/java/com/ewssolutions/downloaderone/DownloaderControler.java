@@ -28,6 +28,8 @@ import com.sapher.youtubedl.mapper.VideoInfo;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -146,6 +148,8 @@ public class DownloaderControler {
     public TextField settingsInputTorLocation;
     public TextField settingsInputSocksHostIp;
     public TextField settingsInputSocksHostPort;
+    public ChoiceBox settingsFileTypeChoiceBox;
+
     public Label settingsYoutubeDlVersion;
 
     @FXML
@@ -153,6 +157,8 @@ public class DownloaderControler {
     public Button settingsSaveButton;
     public Button installYoutubeDlLatestVersionButton;
 
+    // string array
+    String audioFileType[] = { "MP3", "Opus"};
 
     public String youtubeDlVersion = "";
 
@@ -194,6 +200,9 @@ public class DownloaderControler {
         manager.setCookiePolicy((uri, cookie) -> false);
 
     }
+
+
+
 
     /*
         Action Combobox website url
@@ -379,6 +388,8 @@ public class DownloaderControler {
             prefs.put(PrefKeys.USE_SOCKS_PROXY.getKey(), String.valueOf(setttingsCheckUseSocksProxy.isSelected()));
             prefs.put(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(), String.valueOf(setttingsCheckShowDownloadErrorMessage.isSelected()));
             prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(), settingsYoutubeDlVersion.getText());
+            prefs.put(PrefKeys.SOCKS_PROXY_PORT.getKey(),settingsInputSocksHostPort.getText());
+            prefs.put(PrefKeys.AUDIO_FIlE_TYPE.getKey(),settingsFileTypeChoiceBox.getSelectionModel().selectedItemProperty().getValue().toString());
 
             setVisibileSaveCancelButtons(false);
 
@@ -412,6 +423,7 @@ public class DownloaderControler {
         setttingsCheckUseSocksProxy.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.USE_SOCKS_PROXY.getKey(),PrefKeys.USE_SOCKS_PROXY.getDefaultValue())));
         setttingsCheckShowDownloadErrorMessage.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
         settingsYoutubeDlVersion.setText(prefs.get(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue()));
+        settingsFileTypeChoiceBox.getSelectionModel().select(prefs.get(PrefKeys.AUDIO_FIlE_TYPE.getKey(),PrefKeys.AUDIO_FIlE_TYPE.getDefaultValue()));
 
         checkUseSocksProxy();
 
@@ -550,9 +562,13 @@ public class DownloaderControler {
         //request.setOption("output", "%(artist)s/%(album)s/%(title)s.%(ext)s");	// --output "%(id)s"
         request.setOption("output", "%(artist)s/%(title)s.%(ext)s");	// --output "%(id)s"
         request.setOption("extract-audio");
-        request.setOption("audio-format","mp3");
-        //request.setOption("audio-format","opus");
-        request.setOption("audio-quality","190K");//7
+
+        if(prefs.get(PrefKeys.AUDIO_FIlE_TYPE.getKey(),PrefKeys.AUDIO_FIlE_TYPE.getDefaultValue()).equalsIgnoreCase("opus")){
+            request.setOption("audio-format","opus");
+        }else{
+            request.setOption("audio-format","mp3");
+        }
+        request.setOption("audio-quality","192K");//7
 
 
         if (checkVideo.isSelected()) {
@@ -894,4 +910,8 @@ public class DownloaderControler {
             imageTorActive.setOpacity(0.3);
         }
     }
+
+
+
+
 }

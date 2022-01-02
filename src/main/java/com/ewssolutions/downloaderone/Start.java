@@ -30,6 +30,8 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableListBase;
 import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.event.*;
@@ -146,6 +148,7 @@ public class Start extends Application {
             prefs.put(PrefKeys.USE_SOCKS_PROXY.getKey(),PrefKeys.USE_SOCKS_PROXY.getDefaultValue());
             prefs.put(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue());
             prefs.put(PrefKeys.YOUTUBE_DL_VERSION.getKey(),PrefKeys.YOUTUBE_DL_VERSION.getDefaultValue());
+            prefs.put(PrefKeys.AUDIO_FIlE_TYPE.getKey(),PrefKeys.AUDIO_FIlE_TYPE.getDefaultValue());
 
         }
 
@@ -156,6 +159,7 @@ public class Start extends Application {
         myDownloadController.settingsInputSocksHostIp.setText(prefs.get(PrefKeys.SOCKS_PROXY_HOST.getKey(),PrefKeys.SOCKS_PROXY_HOST.getDefaultValue()));
         myDownloadController.settingsInputSocksHostPort.setText(prefs.get(PrefKeys.SOCKS_PROXY_PORT.getKey(),PrefKeys.SOCKS_PROXY_PORT.getDefaultValue()));
         myDownloadController.setttingsCheckShowDownloadErrorMessage.setSelected(Boolean.parseBoolean(prefs.get(PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getKey(),PrefKeys.SHOW_DOWNLOAD_ERROR_MESSAGE.getDefaultValue())));
+
 
         //Check Youtube-dl version
         if(prod){
@@ -241,9 +245,12 @@ public class Start extends Application {
 
         myDownloadController.setttingsCheckShowDownloadErrorMessage.selectedProperty().addListener(myChangeListenerBoolean);
 
-
         myDownloadController.checkUseSocksProxy();
 
+        myDownloadController.settingsFileTypeChoiceBox.setItems(FXCollections.observableArrayList(myDownloadController.audioFileType));
+        myDownloadController.settingsFileTypeChoiceBox.getSelectionModel().select(prefs.get(PrefKeys.AUDIO_FIlE_TYPE.getKey(),PrefKeys.AUDIO_FIlE_TYPE.getDefaultValue()));
+
+        myDownloadController.settingsFileTypeChoiceBox.getSelectionModel().selectedItemProperty().addListener(myChangeListener);
 
 
         if (prod) {
@@ -693,6 +700,7 @@ public class Start extends Application {
             myDownloadController.downloadUrlTextField.setMinHeight(myDownloadController.downloadUrlTextField.getPrefHeight());
         }
     }
+
 
 
 

@@ -1,204 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"  GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ewssolutions.downloaderone.DownloaderControler">
-
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ewssolutions.downloaderone.DownloaderControler">
+   <children>
    
-
-      <TabPane fx:id="tabPaneDownloaderOne" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-
-
-          <Tab id="tabDownload" fx:id="tabDownload" text="Downloads">
-
-                  <GridPane fx:id="gridpaneDownloads" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-
-
-                          <VBox minWidth="-Infinity" prefHeight="-Infinity" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-
+      
    
-                                 <HBox alignment="CENTER" prefHeight="70" prefWidth="1150" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
-   
-
-                                         <Label fx:id="version" prefHeight="42.0" prefWidth="271.0">
-                                            <opaqueInsets>
-                                              <Insets />
-                                            </opaqueInsets>
-                                         </Label>
-
-                                         <ImageView fx:id="imageTorActive" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" VBox.vgrow="NEVER" />
-   
-                                         <TextArea fx:id="downloadUrlTextField" maxHeight="84.0" minHeight="42.0" minWidth="342.0" nodeOrientation="LEFT_TO_RIGHT" prefColumnCount="10" prefHeight="60.0" prefWidth="342.0" GridPane.hgrow="ALWAYS">
-   
-                                             <!--<TextField fx:id="downloadUrlTextField" alignment="TOP_LEFT" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefColumnCount="20" visible="true" GridPane.hgrow="ALWAYS">-->
-                                             <HBox.margin>
-                                                 <Insets left="10.0" />
-                                             </HBox.margin>
-                                             <!--</TextField>-->
-                                         </TextArea>
-                                         <CheckBox fx:id="checkVideo" mnemonicParsing="false" text="Keep video">
-                                             <HBox.margin>
-                                                 <Insets left="10.0" />
-                                             </HBox.margin>
-                                         </CheckBox>
-                                         <Button fx:id="downloadButton" alignment="CENTER" mnemonicParsing="false" onAction="#downloadButtonAction" text="Download" textFill="#000" GridPane.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                 <Insets left="10.0" />
-                                             </HBox.margin>
-                                         </Button>
-   
-                                         <Button fx:id="clearButton" alignment="CENTER" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" textFill="#000" GridPane.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                 <Insets left="10.0" />
-                                             </HBox.margin>
-                                         </Button>
-   
-   
-
+         <TabPane fx:id="tabPaneDownloaderOne" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+      <tabs>
+      
+      
+                <Tab id="tabDownload" fx:id="tabDownload" text="Downloads">
+         <content>
+         
+                           <GridPane fx:id="gridpaneDownloads" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <children>
+            
+            
+                                      <VBox minWidth="-Infinity" prefHeight="-Infinity" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <children>
+               
+                  
+                                                <HBox alignment="CENTER" prefHeight="70" prefWidth="1150" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+                  <children>
+                     
+                  
+                                                           <Label fx:id="version" prefHeight="42.0" prefWidth="271.0">
+                                                              <opaqueInsets>
+                                                                <Insets />
+                                                              </opaqueInsets>
+                                                           </Label>
+                  
+                                                           <ImageView fx:id="imageTorActive" fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" VBox.vgrow="NEVER" />
+                     
+                                                           <TextArea fx:id="downloadUrlTextField" maxHeight="84.0" minHeight="42.0" minWidth="342.0" nodeOrientation="LEFT_TO_RIGHT" prefColumnCount="10" prefHeight="60.0" prefWidth="342.0" GridPane.hgrow="ALWAYS">
+                     
+                                                               <!--<TextField fx:id="downloadUrlTextField" alignment="TOP_LEFT" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefColumnCount="20" visible="true" GridPane.hgrow="ALWAYS">-->
+                                                               <HBox.margin>
+                                                                   <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                               <!--</TextField>-->
+                                                           </TextArea>
+                                                           <CheckBox fx:id="checkVideo" mnemonicParsing="false" text="Keep video">
+                                                               <HBox.margin>
+                                                                   <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                           </CheckBox>
+                                                           <Button fx:id="downloadButton" alignment="CENTER" mnemonicParsing="false" onAction="#downloadButtonAction" text="Download" textFill="#000" GridPane.hgrow="ALWAYS">
+                                                               <HBox.margin>
+                                                                   <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                           </Button>
+                     
+                                                           <Button fx:id="clearButton" alignment="CENTER" mnemonicParsing="false" onAction="#clearButtonAction" text="Clear" textFill="#000" GridPane.hgrow="ALWAYS">
+                                                               <HBox.margin>
+                                                                   <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                           </Button>
+                  </children>
+                  
+                  
+               
+                                                    <padding>
+                                                        <Insets top="30.0" />
+                                                    </padding>
+                                                </HBox>
+               
+                                                <TableView fx:id="downloadTable" minHeight="400" minWidth="500" prefHeight="963.0" prefWidth="1250.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                                    <columns>
+               
+                                                        <!--<TableColumn fx:id="idColumn" text="Nr" />-->
+               
+                                                        <TableColumn fx:id="referenceColumn" text="Reference" />
+                                                        <TableColumn fx:id="urlColumn" text="Url" visible="false" />
+                                                        <TableColumn fx:id="titleColumn" text="Title" />
+                                                        <TableColumn fx:id="videoColumn" text="Video" />
+                                                        <TableColumn fx:id="filesizeColumn" text="Size" />
+                                                        <TableColumn fx:id="startColumn" text="Start" />
+                                                        <TableColumn fx:id="stateColumn" text="State" />
+                                                        <TableColumn fx:id="columnProgress" text="Progress" />
+                                                        <TableColumn fx:id="actionColumn" editable="false" text="Action" />
+                  
+                  
+                                                        <!--<TableColumn fx:id="idColumn" minWidth="40.0" prefWidth="40.0" text="Nr" />-->
+                                                        <!--<TableColumn fx:id="referenceColumn" minWidth="150.0" prefWidth="75.0" text="Reference" />-->
+                                                        <!--<TableColumn fx:id="urlColumn" minWidth="250.0" prefWidth="75.0" text="Url" visible="false"/>-->
+                                                        <!--<TableColumn fx:id="videoColumn" minWidth="50.0" prefWidth="50.0" text="Video" />-->
+                                                        <!--<TableColumn fx:id="filesizeColumn" minWidth="50.0" prefWidth="50.0" text="Size" />-->
+                                                        <!--<TableColumn fx:id="startColumn" minWidth="150.0" prefWidth="75.0" text="Start" />-->
+                                                        <!--<TableColumn fx:id="stateColumn" minWidth="150.0" prefWidth="75.0" text="State" />-->
+                                                        <!--<TableColumn fx:id="progressColumn" minWidth="210.0" prefWidth="210.0" text="Progress" />-->
+                                                        <!--<TableColumn fx:id="actionColumn" minWidth="200.0" prefWidth="200.0" text="Action" />-->
+                  
+                                                    </columns>
+                                                    <padding>
+                                                        <Insets top="30.0" />
+                                                    </padding>
+                                                </TableView>
+               </children>
+            
+            
+                                      </VBox>
+            </children>
+         
+         
+                               <columnConstraints>
+                                   <ColumnConstraints />
+                               </columnConstraints>
+                               <rowConstraints>
+                                   <RowConstraints />
+                               </rowConstraints>
+         
+         
+                           </GridPane>
+         </content>
+      
+                </Tab>
+      
+                <Tab id="tabSearch" fx:id="tabSearch" text="Search">
+         <content>
+         
+                      <GridPane alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <children>
+            
+                                  <HBox alignment="CENTER" prefHeight="70" prefWidth="1150" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
+               <children>
+               
+                                          <ComboBox fx:id="site" editable="true" onAction="#website" prefWidth="300.0" />
+               </children>
+            
                                      <padding>
-                                         <Insets top="30.0" />
+                                        <Insets bottom="20.0" top="20.0" />
                                      </padding>
-                                 </HBox>
-
-                                 <TableView fx:id="downloadTable" minHeight="400" minWidth="500" prefHeight="963.0" prefWidth="1250.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                     <columns>
-
-                                         <!--<TableColumn fx:id="idColumn" text="Nr" />-->
-
-                                         <TableColumn fx:id="referenceColumn" text="Reference" />
-                                         <TableColumn fx:id="urlColumn" text="Url" visible="false" />
-                                         <TableColumn fx:id="titleColumn" text="Title" />
-                                         <TableColumn fx:id="videoColumn" text="Video" />
-                                         <TableColumn fx:id="filesizeColumn" text="Size" />
-                                         <TableColumn fx:id="startColumn" text="Start" />
-                                         <TableColumn fx:id="stateColumn" text="State" />
-                                         <TableColumn fx:id="columnProgress" text="Progress"/>
-                                         <TableColumn fx:id="actionColumn" editable="false" text="Action" />
-   
-   
-                                         <!--<TableColumn fx:id="idColumn" minWidth="40.0" prefWidth="40.0" text="Nr" />-->
-                                         <!--<TableColumn fx:id="referenceColumn" minWidth="150.0" prefWidth="75.0" text="Reference" />-->
-                                         <!--<TableColumn fx:id="urlColumn" minWidth="250.0" prefWidth="75.0" text="Url" visible="false"/>-->
-                                         <!--<TableColumn fx:id="videoColumn" minWidth="50.0" prefWidth="50.0" text="Video" />-->
-                                         <!--<TableColumn fx:id="filesizeColumn" minWidth="50.0" prefWidth="50.0" text="Size" />-->
-                                         <!--<TableColumn fx:id="startColumn" minWidth="150.0" prefWidth="75.0" text="Start" />-->
-                                         <!--<TableColumn fx:id="stateColumn" minWidth="150.0" prefWidth="75.0" text="State" />-->
-                                         <!--<TableColumn fx:id="progressColumn" minWidth="210.0" prefWidth="210.0" text="Progress" />-->
-                                         <!--<TableColumn fx:id="actionColumn" minWidth="200.0" prefWidth="200.0" text="Action" />-->
-   
-                                     </columns>
-                                     <padding>
-                                         <Insets top="30.0" />
-                                     </padding>
-                                 </TableView>
-
-
-                          </VBox>
-
-
-                      <columnConstraints>
-                          <ColumnConstraints />
-                      </columnConstraints>
-                      <rowConstraints>
-                          <RowConstraints />
-                      </rowConstraints>
-
-
-                  </GridPane>
-
-          </Tab>
-
-          <Tab id="tabSearch" fx:id="tabSearch" text="Search">
-
-             <GridPane alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-
-                      <HBox alignment="CENTER" prefHeight="70" prefWidth="1150" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="NEVER">
-
-                           <ComboBox fx:id="site" onAction="#website" prefWidth="300.0" editable="true"/>
-
-                         <padding>
-                            <Insets bottom="20.0" top="20.0" />
-                         </padding>
-                      </HBox>
-                       <VBox maxHeight="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-
-                               <ProgressBar fx:id="progressbar" maxHeight="4.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="4.0" prefWidth="1250.0" progress="0.0" VBox.vgrow="NEVER" />
-
-                               <WebView fx:id="webview" minHeight="500.0" minWidth="1250.0" prefHeight="800.0" prefWidth="1250.0" VBox.vgrow="ALWAYS" />
-
-                        </VBox>
-
-
-               <columnConstraints>
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
-               </rowConstraints>
-            </GridPane>
-          </Tab>
-
-
-          <Tab id="tabSettings" fx:id="tabSettings" text="Settings">
-                  <GridPane hgap="20" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="274.0" prefWidth="1153.0" vgap="15.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="322.0" minWidth="36.0" prefWidth="206.0" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="645.0" minWidth="36.0" prefWidth="592.0" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="200.0" minWidth="36.0" prefWidth="245.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="30.0" />
-                        <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                        <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                         <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                         <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                         <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                         <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                  </HBox>
+                                   <VBox maxHeight="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                                      <children>
+               
+                                              <ProgressBar fx:id="progressbar" maxHeight="4.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="4.0" prefWidth="1250.0" progress="0.0" VBox.vgrow="NEVER" />
+               
+                                              <WebView fx:id="webview" minHeight="500.0" minWidth="1250.0" prefHeight="800.0" prefWidth="1250.0" VBox.vgrow="ALWAYS" />
+                                      </children>
+            
+                                    </VBox>
+            </children>
+         
+         
+                        <columnConstraints>
+                           <ColumnConstraints />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        </rowConstraints>
+                     </GridPane>
+         </content>
+                </Tab>
+      
+      
+                <Tab id="tabSettings" fx:id="tabSettings" text="Settings">
+         <content>
+                           <GridPane hgap="20" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="274.0" prefWidth="1153.0" vgap="15.0">
+                              <columnConstraints>
+                                 <ColumnConstraints hgrow="ALWAYS" maxWidth="322.0" minWidth="36.0" prefWidth="206.0" />
+                                 <ColumnConstraints hgrow="ALWAYS" maxWidth="645.0" minWidth="36.0" prefWidth="592.0" />
+                                 <ColumnConstraints hgrow="ALWAYS" maxWidth="200.0" minWidth="36.0" prefWidth="245.0" />
+                              </columnConstraints>
+                              <rowConstraints>
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="30.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints maxHeight="26.0" minHeight="26.0" prefHeight="26.0" />
+                                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                         <RowConstraints />
-                     </rowConstraints>
+                              </rowConstraints>
+                              <children>
+            
+                                 <Label id="label_download_location" prefHeight="16.0" prefWidth="150.0" text="Download location" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                 <TextField fx:id="settingsInputDownloadLocation" prefHeight="26.0" prefWidth="384.0" promptText="Path to the directory where the downloads will be saved" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                 <Button fx:id="settingsDownloadLocationDialogButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsDownloadLocationDialogButton" prefHeight="26.0" prefWidth="50.0" text="..." textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="1" />
+            
+                                 <Label id="label_tor_location" layoutX="20.0" layoutY="30.0" prefHeight="16.0" prefWidth="188.0" text="Tor Location" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                                 <TextField fx:id="settingsInputTorLocation" layoutX="214.0" layoutY="25.0" prefHeight="26.0" prefWidth="0.0" promptText="Path to the directory where the Tor Browser is installed" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                                 <Button fx:id="settingsTorLocationDialogButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsTorLocationDialogButton" prefHeight="26.0" prefWidth="50.0" text="..." textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="2" />
+            
+                                 <Label id="label_use_socks_proxy" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Use socks proxy" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                 <CheckBox fx:id="setttingsCheckUseSocksProxy" ellipsisString="" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkUseSocksProxy" prefHeight="26.0" prefWidth="0.0" text="Use Proxy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            
+                                 <Label id="label_socks_host_ip" fx:id="settingsInputSocksHostIPLabel" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Socks host ip" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                 <TextField fx:id="settingsInputSocksHostIp" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="0.0" promptText="127.0.0.1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            
+                                 <Label id="label_socks_host_port" fx:id="settingsInputSocksHostPortLabel" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" text="Socks host port" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                 <TextField fx:id="settingsInputSocksHostPort" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="0.0" promptText="Numbers only" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                 <Label fx:id="settingslabelSocksHostPortMsg" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            
+                                  <Label id="label_show_download_error_message" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Show download error message" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                  <CheckBox fx:id="setttingsCheckShowDownloadErrorMessage" ellipsisString="" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkShowDowloadErrorMessage" prefHeight="26.0" prefWidth="0.0" text="Show download error message" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            
+                                <Label id="label_youtubel-dl_version" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Youtube-dl version" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                <Label fx:id="settingsYoutubeDlVersion" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            
+                                <Label id="label_audio_file_type" prefHeight="16.0" prefWidth="150.0" text="File Type Audio" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                                <ChoiceBox fx:id="settingsFileTypeChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
-                     <Label id="label_download_location" prefHeight="16.0" prefWidth="150.0" text="Download location" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                     <TextField fx:id="settingsInputDownloadLocation" prefHeight="26.0" prefWidth="384.0" promptText="Path to the directory where the downloads will be saved" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                     <Button fx:id="settingsDownloadLocationDialogButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsDownloadLocationDialogButton" prefHeight="26.0" prefWidth="50.0" text="..." textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="1" />
 
-                     <Label id="label_tor_location" layoutX="20.0" layoutY="30.0" prefHeight="16.0" prefWidth="188.0" text="Tor Location" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                     <TextField fx:id="settingsInputTorLocation" layoutX="214.0" layoutY="25.0" prefHeight="26.0" prefWidth="0.0" promptText="Path to the directory where the Tor Browser is installed" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                     <Button fx:id="settingsTorLocationDialogButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsTorLocationDialogButton" prefHeight="26.0" prefWidth="50.0" text="..." textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="2" />
+            
+                                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="500.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                <children>
+                                         <Button fx:id="settingsCancelButton" cancelButton="true" mnemonicParsing="false" onAction="#settingsCancelButtonAction" prefHeight="26.0" prefWidth="223.0" text="Cancel" textAlignment="RIGHT" visible="false" />
+                                         <Button fx:id="settingsSaveButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsSaveButtonAction" prefHeight="26.0" prefWidth="224.0" text="Save" textAlignment="RIGHT" visible="false" />
+               </children>
+                                </HBox>
 
-                     <Label id="label_use_socks_proxy" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Use socks proxy" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                     <CheckBox fx:id="setttingsCheckUseSocksProxy" ellipsisString="" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkUseSocksProxy" prefHeight="26.0" prefWidth="0.0" text="Use Proxy" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                     <Label id="label_socks_host_ip" fx:id="settingsInputSocksHostIPLabel" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Socks host ip" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                     <TextField fx:id="settingsInputSocksHostIp" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="0.0" promptText="127.0.0.1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-                     <Label id="label_socks_host_port" fx:id="settingsInputSocksHostPortLabel" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" text="Socks host port" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                     <TextField fx:id="settingsInputSocksHostPort" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="0.0" promptText="Numbers only" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                     <Label fx:id="settingslabelSocksHostPortMsg" layoutX="186.0" layoutY="92.0" prefHeight="26.0" prefWidth="188.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-
-                      <Label id="label_show_download_error_message" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Show download error message" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                      <CheckBox fx:id="setttingsCheckShowDownloadErrorMessage" ellipsisString="" layoutX="397.0" layoutY="87.0" mnemonicParsing="false" onAction="#checkShowDowloadErrorMessage" prefHeight="26.0" prefWidth="0.0" text="Show download error message" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                    <Label id="label_youtubel-dl_version" layoutX="186.0" layoutY="92.0" prefHeight="16.0" prefWidth="188.0" text="Youtube-dl version" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                    <Label fx:id="settingsYoutubeDlVersion" layoutX="397.0" layoutY="87.0" prefHeight="26.0" prefWidth="600.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="500.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                          <Button fx:id="settingsCancelButton" cancelButton="true" mnemonicParsing="false" onAction="#settingsCancelButtonAction" prefHeight="26.0" prefWidth="223.0" text="Cancel" textAlignment="RIGHT" visible="false" />
-                          <Button fx:id="settingsSaveButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#settingsSaveButtonAction" prefHeight="26.0" prefWidth="224.0" text="Save" textAlignment="RIGHT" visible="false" />
-                    </HBox>
-
-
-                 <padding>
-                    <Insets left="70.0" right="10.0" top="10.0" />
-                 </padding>
-              </GridPane>
-          </Tab>
-    </TabPane>
+                              </children>
+         
+         
+                          <padding>
+                             <Insets left="70.0" right="10.0" top="10.0" />
+                          </padding>
+                       </GridPane>
+         </content>
+                </Tab>
+      </tabs>
+       </TabPane>
+   </children>
 </AnchorPane>
