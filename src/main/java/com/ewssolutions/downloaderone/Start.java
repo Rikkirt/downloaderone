@@ -73,7 +73,7 @@ import static java.awt.SplashScreen.getSplashScreen;
 public class Start extends Application {
 
 
-    public static String version = "4.2.0";
+    public static String version = "4.3.1";
 
     //private String testUrl = "https://www.youtube.com/watch?v=afF3XHW7mZ4&list=PLIgtqVSOWgBYF-K0KYfq8nFsyDDq0LrI7\nhttps://youtu.be/HWOWwO7XGgY"; //Dolly
     //private String testUrl = "https://youtu.be/HWOWwO7XGgY\nhttps://www.youtube.com/watch?v=kUg7OO1gZk0&list=PLlQHeJpCWHxTr1Bs1tX840Tp2gKIU9l25"; //Undertones
