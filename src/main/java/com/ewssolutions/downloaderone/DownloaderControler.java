@@ -551,6 +551,9 @@ public class DownloaderControler {
         request.setOption("output", "%(artist)s/%(title)s.%(ext)s");	// --output "%(id)s"
         request.setOption("extract-audio");
         request.setOption("audio-format","mp3");
+        //request.setOption("audio-format","opus");
+        request.setOption("audio-quality","190K");//7
+
 
         if (checkVideo.isSelected()) {
             request.setOption("keep-video");
